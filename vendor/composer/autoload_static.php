@@ -51,6 +51,10 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
             'Illuminate\\Support\\' => 19,
             'Illuminate\\Contracts\\' => 21,
         ),
+        'H' => 
+        array (
+            'Haruncpi\\LaravelIdGenerator\\' => 28,
+        ),
         'D' => 
         array (
             'Doctrine\\Inflector\\' => 19,
@@ -94,8 +98,8 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -130,6 +134,10 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
         'Illuminate\\Contracts\\' => 
         array (
             0 => __DIR__ . '/..' . '/illuminate/contracts',
+        ),
+        'Haruncpi\\LaravelIdGenerator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/haruncpi/laravel-id-generator/src',
         ),
         'Doctrine\\Inflector\\' => 
         array (

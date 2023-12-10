@@ -6,9 +6,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/select2/select2.min.css') }}">
     <link href="{{ asset('backend/assets/css/forms/form-widgets.css') }}" rel="stylesheet" type="text/css">
 
- 
- 
- 
+
+
+
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/dropify/dropify.min.css') }}">
     <link href="{{ asset('backend/assets/css/pages/profile_edit.css') }}" rel="stylesheet" type="text/css" />
 @endsection
@@ -21,14 +21,11 @@
     </nav>
 @endsection
 @section('content')
-
- 
-            
     <div class="col-lg-12 layout-spacing">
         <div class="statbox widget box box-shadow mb-4 mt-4">
             <div class="row mb-4 ml-2">
-             
-            
+
+
                 <div class="col-lg-2 mt-2">
                     <input type="text" class="form-control" name="username" id="s_username" placeholder="รหัสสมาชิก">
                 </div>
@@ -39,22 +36,23 @@
                     <input type="text" class="form-control" name="id_card" id="s_id_card"
                         placeholder="หมายเลขบัตรประชาชน">
                 </div>
-             
-                <div class="col-lg-2 mb-2">
-               
 
-                        <div class="button-list mt-2">
+                <div class="col-lg-4 mb-2">
+
+
+                    <div class="button-list mt-2">
                         <button type="button" class="btn btn-outline-success btn-rounded" id="search-form"><i
-                            class="las la-search font-15"></i>
-                        สืบค้น</button>
+                                class="las la-search font-15"></i>
+                            สืบค้น</button>
 
-                                    <button class="btn  btn-sm btn-primary btn-rounded"  data-toggle="modal" data-target="#add"><i class="las la-plus-circle font-20"></i>
-                                        เพิ่มสมาชิก</button>
-                            </div>
+                        <button class="btn  btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#add"><i
+                                class="las la-plus-circle font-20"></i>
+                            เพิ่มสมาชิก</button>
+                    </div>
                 </div>
 
-      
- 
+
+
 
             </div>
 
@@ -97,7 +95,7 @@
                                                     </div>
                                                     <div class="col-lg-6  mt-2">
                                                         <label><b>หมายเลขบัตรประชาชน:</b></label>
-                                                        <input type="text" name="id_card" id="id_card"
+                                                        <input type="text" name="id_card"
                                                             class="form-control" placeholder="หมายเลขบัตรประชาชน"
                                                             disabled>
                                                     </div>
@@ -191,35 +189,35 @@
                     </div>
                 </div>
 
-           
- 
+
+
             </div>
 
             <div class="row">
-<div class="modal fade bd-example-modal-lg" id="add" tabindex="-1" role="dialog"
-    aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header ml-4">
-                <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มรหัสสมาชิก</b></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="las la-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="modal-text">
-                <div class="widget-content widget-content-area">
-                    <div class="form-group row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <form method="post" action="{{ route('admin/register') }}">
-                                @csrf
+                <div class="modal fade bd-example-modal-lg" id="add" tabindex="-1" role="dialog"
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header ml-4">
+                                <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มรหัสสมาชิก</b></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i class="las la-times"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="modal-text">
+                                <div class="widget-content widget-content-area">
+                                    <div class="form-group row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <form method="post" action="{{ route('admin/register') }}">
+                                                @csrf
 
-                                <div class="row">
+                                                <div class="row">
                                                     <div class="col-md-2">
                                                         <div class="form-group">
                                                             <label for="prefix">คำนำหน้าชื่อ
                                                                 <span class="text-danger"> </span></label>
-                                                            <select name="prefix" class="form-control" id="prefix">
+                                                            <select name="prefix" class="form-control"  >
                                                                 <option>นาย</option>
                                                                 <option>นาง</option>
                                                                 <option>นางสาว</option>
@@ -297,15 +295,16 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                
-                                          
+
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_card">หมายเลขบัตรประชาชน  <span class="text-danger">*</span>
-                                                                </label>
+                                                            <label for="id_card">หมายเลขบัตรประชาชน <span
+                                                                    class="text-danger">*</span>
+                                                            </label>
                                                             <input type="text" maxlength="13" unique="customers"
                                                                 class="form-control @error('id_card') is-invalid @enderror"
-                                                                name="id_card" id="id_card"
+                                                                name="id_card"
                                                                 placeholder="หมายเลขบัตรประชาชน"
                                                                 value="{{ old('id_card') }}" require>
                                                             @error('id_card')
@@ -332,12 +331,315 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="email">Email Address
-                                                                </label>
+                                                            </label>
 
                                                             <input type="email"
                                                                 class="form-control @error('email') is-invalid @enderror"
                                                                 name="email" placeholder="email@example.com"
-                                                                value="{{ old('email') }}"  >
+                                                                value="{{ old('email') }}">
+                                                            @error('email')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-area col-md-12 text-right">
+                                                        {{-- <button type="submit" class="btn btn-info mr-2">
+                                                        <i class="las la-save"></i> ยืนยันข้อมูลการสมัคร</button> --}}
+                                                    </div>
+                                                </div>
+                                                <h6 class="font-16 mb-3"><b>ที่อยู่ตามบัตรประชาชน (ADDRESS)</b></h6>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="card_no">บ้านเลขที่
+                                                                <span class="text-danger">*
+                                                                </span></label>
+                                                            <input type="text"
+                                                                class="form-control @error('card_no') is-invalid @enderror"
+                                                                name="card_no" id="card_no" placeholder="บ้านเลขที่"
+                                                                value="{{ old('card_no') }}" required>
+                                                            @error('card_no')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="card_moo">หมู่ที่
+                                                                <span class="text-danger">*
+                                                                </span></label>
+                                                            <input type="text"
+                                                                class="form-control @error('card_moo') is-invalid @enderror"
+                                                                name="card_moo"   placeholder="หมู่ที่"
+                                                                value="{{ old('card_moo') }}" required>
+                                                            @error('card_moo')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="card_home_name">หมู่บ้าน/อาคาร
+                                                                <span class="text-danger">*
+                                                                </span></label>
+                                                            <input type="text"
+                                                                class="form-control @error('card_home_name') is-invalid @enderror"
+                                                                name="card_home_name"
+                                                                placeholder="หมู่บ้าน/อาคาร"
+                                                                value="{{ old('card_home_name') }}" required>
+                                                            @error('card_home_name')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="card_soi">ตรอก/ซอย
+                                                            </label>
+                                                            <input type="text"
+                                                                class="form-control @error('card_soi') is-invalid @enderror"
+                                                                name="card_soi"   placeholder="ตรอก/ซอย"
+                                                                value="{{ old('card_soi') }}">
+                                                            @error('card_soi')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="card_road">ถนน
+                                                            </label>
+                                                            <input type="text"
+                                                                class="form-control @error('card_road') is-invalid @enderror"
+                                                                name="card_road"   placeholder="ถนน"
+                                                                value="{{ old('card_road') }}">
+                                                            @error('card_road')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="card_changwat">จังหวัด
+                                                                <span class="text-danger">*</span></label>
+
+                                                            <select name="card_changwat" class="form-control basic"
+                                                                id="card_changwat" required>
+                                                                <option value="">เลือกจังหวัด</option>
+                                                                @foreach ($province as $value_provinces)
+                                                                    <option value="{{ $value_provinces->id }}"
+                                                                        @if ($value_provinces->id == old('card_province')) selected @endif>
+                                                                        {{ $value_provinces->name_th }}</option>
+                                                                @endforeach
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="card_amphur">เขต/อำเภอ
+                                                                <span class="text-danger">*</span></label>
+                                                            <select name="card_amphur" class="form-control"
+                                                                id="card_amphur" disabled required>
+                                                                <option value="">เลือกเขต/อำเภอ</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="card_tambon">แขวง/ตำบล
+                                                                <span class="text-danger">*</span></label>
+                                                            <select name="card_tambon" class="form-control"
+                                                                id="card_tambon" disabled required>
+                                                                <option value="">เลือกแขวง/ตำบล</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="card_zipcode">รหัสไปรษณีย์
+                                                                <span class="text-danger card_zipcode_err _err">*
+                                                                </span></label>
+                                                            <input type="text"
+                                                                class="form-control @error('card_zipcode') is-invalid @enderror"
+                                                                name="card_zipcode" placeholder="รหัสไปรษณีย์"
+                                                                id="card_zipcode" value="{{ old('card_zipcode') }}"
+                                                                required disabled>
+                                                            @error('card_zipcode')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-area col-md-12 text-right">
+                                                        <button type="submit" class="btn btn-info mr-2">
+                                                            <i class="las la-save"></i></i> ยืนยันข้อมูลการสมัคร</button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="modal fade bd-example-modal-lg" id="edit_customer" tabindex="-1" role="dialog"
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header ml-4">
+                                <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มรหัสสมาชิก</b></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i class="las la-times"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="modal-text">
+                                <div class="widget-content widget-content-area">
+                                    <div class="form-group row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <form method="post" action="{{ route('admin/register') }}">
+                                                @csrf
+
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label for="prefix">คำนำหน้าชื่อ
+                                                                <span class="text-danger"> </span></label>
+                                                            <select name="prefix" class="form-control" id="prefix">
+                                                                <option>นาย</option>
+                                                                <option>นาง</option>
+                                                                <option>นางสาว</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label for="firstname">ชื่อ
+                                                                <span class="text-danger">*</span></label>
+                                                            <input type="text"
+                                                                class="form-control @error('firstname') is-invalid @enderror"
+                                                                name="firstname" id="firstname" placeholder="ชื่อ"
+                                                                value="{{ old('firstname') }}" required>
+                                                            @error('firstname')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label for="lastname">นามสุกล
+                                                                <span class="text-danger">*</span></label>
+                                                            <input type="text"
+                                                                class="form-control @error('lastname') is-invalid @enderror"
+                                                                name="lastname" id="lastname" placeholder="นามสุกล"
+                                                                value="{{ old('lastname') }}" required>
+                                                            @error('lastname')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label for="marital_status">สถานภาพ
+                                                                <span
+                                                                    class="text-danger marital_status_err _err"></span></label>
+                                                            <select name="marital_status" class="form-control"
+                                                                id="marital_status">
+                                                                <option>โสด</option>
+                                                                <option>สมรส</option>
+                                                                <option>หย่าร้าง</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label for="businessname">ชื่อในทางธุรกิจ
+                                                                <span class="text-danger">*
+                                                                    กรณีที่ไม่มีให้ใส่
+                                                                    (-)</span></label>
+                                                            <input type="text"
+                                                                class="form-control @error('businessname') is-invalid @enderror"
+                                                                name="businessname" id="businessname" placeholder="ชื่อในทางธุรกิจ"
+                                                                value="{{ old('businessname') }}" required>
+                                                            @error('businessname')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label for="birthdate">วัน/เดือน/ปี เกิด
+                                                                <span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <input type="date"
+                                                                    class="form-control @error('birthdate') is-invalid @enderror"
+                                                                    name="birthdate" id="birthdate" placeholder="yyyy-mm-dd"
+                                                                    value="{{ old('birthdate') }}" required>
+                                                                @error('birthdate')
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_card">หมายเลขบัตรประชาชน <span
+                                                                    class="text-danger">*</span>
+                                                            </label>
+                                                            <input type="text" maxlength="13" unique="customers"
+                                                                class="form-control @error('id_card') is-invalid @enderror"
+                                                                name="id_card"
+                                                                placeholder="หมายเลขบัตรประชาชน"
+                                                                value="{{ old('id_card') }}" require>
+                                                            @error('id_card')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                            <span class="error text-danger"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="phone">หมายเลขโทรศัพท์
+                                                                <span class="text-danger">*</span></label>
+                                                            <input type="text"
+                                                                class="form-control @error('phone') is-invalid @enderror"
+                                                                name="phone" placeholder="หมายเลขโทรศัพท์"
+                                                                value="{{ old('phone') }}" maxlength="10"
+                                                                minlength="10" required>
+                                                            @error('phone')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="email">Email Address
+                                                            </label>
+
+                                                            <input type="email"
+                                                                class="form-control @error('email') is-invalid @enderror"
+                                                                name="email" placeholder="email@example.com"
+                                                                value="{{ old('email') }}">
                                                             @error('email')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -386,7 +688,8 @@
                                                                 </span></label>
                                                             <input type="text"
                                                                 class="form-control @error('card_home_name') is-invalid @enderror"
-                                                                name="card_home_name" id="card_home_name" placeholder="หมู่บ้าน/อาคาร"
+                                                                name="card_home_name" id="card_home_name"
+                                                                placeholder="หมู่บ้าน/อาคาร"
                                                                 value="{{ old('card_home_name') }}" required>
                                                             @error('card_home_name')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -396,11 +699,11 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="card_soi">ตรอก/ซอย
-                                                                 </label>
+                                                            </label>
                                                             <input type="text"
                                                                 class="form-control @error('card_soi') is-invalid @enderror"
                                                                 name="card_soi" id="card_soi" placeholder="ตรอก/ซอย"
-                                                                value="{{ old('card_soi') }}" >
+                                                                value="{{ old('card_soi') }}">
                                                             @error('card_soi')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -409,7 +712,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="card_road">ถนน
-                                                                </label>
+                                                            </label>
                                                             <input type="text"
                                                                 class="form-control @error('card_road') is-invalid @enderror"
                                                                 name="card_road" id="card_road" placeholder="ถนน"
@@ -480,35 +783,34 @@
                                                     </div>
                                                     <div class="info-area col-md-12 text-right">
                                                         <button type="submit" class="btn btn-info mr-2">
-                                                        <i class="las la-save"></i></i> ยืนยันข้อมูลการสมัคร</button>  
+                                                            <i class="las la-save"></i></i> ยืนยันข้อมูลการสมัคร</button>
                                                     </div>
                                                 </div>
-                              
-                            </form>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                </p>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                </p>
             </div>
 
-        </div>
-    </div>
-</div>
-    </div>
-
-    <div class="row">
-        <div class="table-responsive mt-2 mb-2">
-            <table id="basic-dt" class="table table-hover" style="width:100%">
-            </table>
-        </div>
-    </div>
+            <div class="row">
+                <div class="table-responsive mt-2 mb-2">
+                    <table id="basic-dt" class="table table-hover" style="width:100%">
+                    </table>
+                </div>
+            </div>
 
 
         </div>
 
 
     </div>
- 
 @endsection
 @section('js')
     <script src="{{ asset('backend/plugins/table/datatable/datatables.js') }}"></script>
@@ -524,7 +826,7 @@
     <script src="{{ asset('frontend/plugins/select2/select2.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/forms/custom-select2.js') }}"></script>
 
- 
+
     <script src="{{ asset('backend/assets/js/forms/multiple-step.js') }}"></script>
     <script src="{{ asset('backend/plugins/dropify/dropify.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/pages/profile_edit.js') }}"></script>
@@ -560,10 +862,10 @@
                     url: '{{ route('admin/MemberRegister_datatable') }}',
                     data: function(d) {
                         d.s_username = $('#s_username').val();
-             
+
                         d.s_first_name = $('#s_first_name').val();
                         d.s_id_card = $('#s_id_card').val();
-              
+
 
                     },
                 },
@@ -582,7 +884,7 @@
                         className: "w-10 ",
                     },
 
-                   
+
                     {
                         data: "name_bu",
                         title: "ชื่อผู้ประกอบการ",
@@ -612,7 +914,13 @@
                         className: "w-10",
                     },
 
-        
+                    {
+                        data: "customer_status",
+                        title: "สถานะ",
+                        className: "w-10",
+                    },
+
+
                     {
                         data: "action",
                         title: "Action",
@@ -636,7 +944,7 @@
         function edit(id) {
 
             $.ajax({
-                    url: '{{ route('admin/view_password')}}',
+                    url: '{{ route('admin/view_password') }}',
                     type: 'GET',
                     data: {
                         id
@@ -657,30 +965,27 @@
                 })
         }
 
-        function edit_position(id) {
+        function edit_customer(id) {
 
-            $.ajax({
-                    url: '{{ route('admin/view_password') }}',
-                    type: 'GET',
-                    data: {
-                        id
-                    }
-                })
-                .done(function(data) {
-                    console.log(data);
+            $("#edit_customer").modal();
 
-                    $("#edit_position").modal();
-                    $("#id_customer").val(data['data']['id']);
-                    $("#username_position").val(data['data']['user_name']);
-                    $("#first_name_position").val(data['data']['name']);
-                    $("#last_name_position").val(data['data']['last_name']);
-                    $("#old_position").val(data['data']['business_qualifications']);
+            // $.ajax({
+            //         url: '{{ route('admin/view_password') }}',
+            //         type: 'GET',
+            //         data: {
+            //             id
+            //         }
+            //     })
+            //     .done(function(data) {
+            //         console.log(data);
 
-                        })
-                        .fail(function() {
-                            console.log("error");
-                        })
-            }
+            //         $("#edit_customer").modal();
+
+            //     })
+            //     .fail(function() {
+            //         console.log("error");
+            //     })
+        }
 
 
 
@@ -711,9 +1016,8 @@
     </script>
 
 
-<script>
-
-    $("#card_changwat").change(function() {
+    <script>
+        $("#card_changwat").change(function() {
             let province_id = $(this).val();
             $.ajax({
                 url: '{{ route('getDistrict') }}',
@@ -785,5 +1089,5 @@
                 error: function() {}
             })
         });
-</script>
+    </script>
 @endsection

@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Support\Arr;
 use DataTables;
+use App\Customers;
+use App\CustomersAddressCard;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class MemberRigisterController extends Controller
 {
@@ -19,8 +22,8 @@ class MemberRigisterController extends Controller
 
   public function index()
   {
- 
- 
+
+
     $province = DB::table('dataset_provinces')
     ->select('*')
     //->where('business_location_id',$business_location_id)
@@ -34,17 +37,18 @@ class MemberRigisterController extends Controller
   {
 
     $customers = DB::table('customers')
- 
+
 
       ->whereRaw(("case WHEN  '{$rs->s_username}' != ''  THEN  customers.user_name = '{$rs->s_username}' else 1 END"))
       ->whereRaw(("case WHEN  '{$rs->s_first_name}' != ''  THEN  customers.name LIKE '{$rs->s_first_name}%' else 1 END"))
-      ->whereRaw(("case WHEN  '{$rs->s_id_card}' != ''  THEN  customers.id_card = '{$rs->s_id_card}' else 1 END"));
-   
+      ->whereRaw(("case WHEN  '{$rs->s_id_card}' != ''  THEN  customers.id_card = '{$rs->s_id_card}' else 1 END"))
+      ->orderByDesc('id');
+
       // ->whereRaw(("case WHEN '{$request['s_date']}' != '' and '{$request['e_date']}' = ''  THEN  date(ewallet.created_at) = '{$request['s_date']}' else 1 END"))
       // ->whereRaw(("case WHEN '{$request['s_date']}' != '' and '{$request['e_date']}' != ''  THEN  date(ewallet.created_at) >= '{$request['s_date']}' and date(ewallet.created_at) <= '{$request['e_date']}'else 1 END"))
       // ->whereRaw(("case WHEN '{$request['s_date']}' = '' and '{$request['e_date']}' != ''  THEN  date(ewallet.created_at) = '{$request['e_date']}' else 1 END"))
       // ->whereRaw(("case WHEN  '{$rs->regis_date_doc}' != ''  THEN  customers.regis_date_doc = '{$rs->regis_date_doc}' else 1 END"))
- 
+
     // ->get();
 
 
@@ -70,10 +74,6 @@ class MemberRigisterController extends Controller
         return $row->id_card;
       })
 
- 
-
- 
- 
 
       ->addColumn('customer_status', function ($row) {
         if ($row->status_customer == 'normal') {
@@ -99,8 +99,8 @@ class MemberRigisterController extends Controller
         //       <i class="lab la-whmcs font-25 text-warning"></i></a>';
         $html2 = '<i class="lab la-whmcs font-25 text-warning" id="btnGroupDrop1" data-toggle="dropdown"></i>
               <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" >
-              <a class="dropdown-item" href="#!" onclick="edit_position(' . $row->id . ')" class="p-2">แก้ไขรายละเอียด</a>
-             
+              <a class="dropdown-item" href="#!" onclick="edit_customer(' . $row->id . ')" class="p-2">แก้ไขรายละเอียด</a>
+
                 <a class="dropdown-item" href="#!" onclick="cancel_member(' . $row->id . ')" class="p-2">ยกเลิกรหัส</a>
               </div>';
 
@@ -228,10 +228,116 @@ class MemberRigisterController extends Controller
 
 
 
-  public function register(Request $rs)
+  public function register(Request $request)
   {
-     dd($rs->all());
+
+
+     $user_name = self::gencode_customer();
+
+     $id_card_check = Customers::where('id_card', $request->id_card)->first();
+     if($id_card_check){
+        redirect('admin/MemberRegister')->withError('มีรหัสบัตรประชาชนนี้เเล้ว ไม่สามารถสมัครซ้ำได้');
+     }
+
+     $c_code = $user_name;
+
+     $customer_insert = new Customers;
+
+     $customer_insert->user_name = $c_code;
+     $user_name_success[] = $c_code;
+
+     $id_card = (trim($request->input('id_card')) == '') ? null : $request->input('id_card');
+     $pass = substr($id_card, -4);
+     $pass_db = md5($pass);
+
+
+     $customer_insert->password = $pass_db;
+
+     // $customer_insert->number_of_member=$request->number_of_member;
+     // $customer_insert->business_location=$request->business_location;
+
+     $customer_insert->prefix_name = trim($request->prefix);
+     $customer_insert->name = trim($request->firstname);
+     $customer_insert->last_name = trim($request->lastname);
+     $customer_insert->family_status = trim($request->marital_status);
+     $customer_insert->name_bu = trim($request->businessname);
+     $customer_insert->birth_day = trim($request->birthdate);
+     $customer_insert->id_card = trim($request->id_card);
+    //  $customer_insert->country = trim($request->country);
+    //  $customer_insert->national = trim($request->national);
+     $customer_insert->phone = trim($request->phone);
+     $customer_insert->email = trim($request->email);
+
+     //INSERT CUSTOMER ADDRESS CARD
+     $customers_address_card_insert = new CustomersAddressCard;
+     $customers_address_card_insert->card_house_no = trim($request->card_no);
+     $customers_address_card_insert->card_moo = trim($request->card_moo);
+     $customers_address_card_insert->card_home_name = trim($request->card_home_name);
+     $customers_address_card_insert->card_soi = trim($request->card_soi);
+     $customers_address_card_insert->card_road = trim($request->card_road);
+     $customers_address_card_insert->card_tambon_id_fk = '1';
+     $customers_address_card_insert->card_tambon = trim($request->card_tambon);
+     $customers_address_card_insert->card_district_id_fk = '1';
+     $customers_address_card_insert->card_amphur = trim($request->card_amphur);
+     $customers_address_card_insert->card_province_id_fk = '1';
+     $customers_address_card_insert->card_changwat = trim($request->card_changwat);
+     $customers_address_card_insert->card_zipcode = trim($request->card_zipcode);
+
+
+     try {
+
+            DB::BeginTransaction();
+            $customer_insert->save();
+            $customers_address_card_insert->customer_id = $customer_insert->id;
+            $customers_address_card_insert->username = $customer_insert->user_name;
+            $customers_address_card_insert->save();
+            DB::commit();
+
+        return redirect('admin/MemberRegister')->withSuccess('สมัครสมาชิกสำเร็จ');
+    } catch (Exception $e) {
+        //code
+        DB::rollback();
+        redirect('admin/MemberRegister')->withError('Error' .$e);
+    }
+
+
   }
+
+  public static function gencode_customer()
+  {
+      $y = date('Y');
+      $y = substr($y, -2);
+
+      $code =  IdGenerator::generate([
+          'table' => 'customer_code',
+          'field' => 'code',
+          'length' => 8,
+          'prefix' => 'A',
+          'reset_on_prefix_change' => true
+      ]);
+
+        $ck_code = DB::table('customer_code')
+        ->where('code','=',$code)
+        ->first();
+
+        if(empty($ck_code)){
+
+            $rs_code_order = DB::table('customer_code')
+            ->Insert(['code' => $code]);
+
+            if ($rs_code_order == true) {
+                return  $code;
+              } else {
+                \App\Controllers\Admin\MemberRigisterController::gencode_customer();
+              }
+
+        }else{
+            \App\Controllers\Admin\MemberRigisterController::gencode_customer();
+        }
+
+  }
+
+
 
 
 }

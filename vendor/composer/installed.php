@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => 'ab24402118d7ac181495e80d4531e6120bd68320',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '061ec8a7be1d36677a8fa95429d65af48db131ba',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => 'ab24402118d7ac181495e80d4531e6120bd68320',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '061ec8a7be1d36677a8fa95429d65af48db131ba',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -43,6 +43,15 @@
             'reference' => '523407fb06eb9e5f3d59889b3978d5bfe94299c8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../ezyang/htmlpurifier',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'haruncpi/laravel-id-generator' => array(
+            'pretty_version' => 'v1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => 'b227dc2391ea45e9d070f19d35dc0a5f7a8f4185',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../haruncpi/laravel-id-generator',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
