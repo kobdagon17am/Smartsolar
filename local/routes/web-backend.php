@@ -58,6 +58,12 @@ Route::get('admin/Blank', function () {
 
   Route::get('admin/bill/bill_create_detail/{code}', 'Admin\BillController@bill_create_detail')->name('admin/bill/bill_create_detail');
 
+  Route::post('admin/bill/update_bill', 'Admin\BillController@update_bill')->name('admin/bill/update_bill');
+
+
+
+
+
 
 
 

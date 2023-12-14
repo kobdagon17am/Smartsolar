@@ -10,18 +10,22 @@ use DB;
 class RunCodeController extends Controller
 {
 
-    public static function db_code_order()
+    public static function db_code_order($type)
     {
-        $y = date('Y') + 543;
-        $y = substr($y, -2);
+        $y = date('Y');
+
+        if($type == 1){
+            $prefix = 'STC';
+        }else{
+            $prefix = 'SPP';
+        }
         $code =  IdGenerator::generate([
             'table' => 'db_code_order',
             'field' => 'code',
-            'length' => 15,
-            'prefix' => 'ON' . $y . '' . date("m") . '-',
+            'length' => 17,
+            'prefix' => $prefix . $y . '.' . date("m") . '.',
             'reset_on_prefix_change' => true
         ]);
-
           $ck_code = DB::table('db_code_order')
           ->where('code','=',$code)
           ->first();
@@ -32,11 +36,11 @@ class RunCodeController extends Controller
               if ($rs_code_order == true) {
                   return  $code;
                 } else {
-                  \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_order();
+                  \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_order($type);
                 }
 
           }else{
-               \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_order();
+               \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_order($type);
           }
 
     }

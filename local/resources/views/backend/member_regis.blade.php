@@ -36,6 +36,10 @@
                     <input type="text" class="form-control" name="id_card" id="s_id_card"
                         placeholder="หมายเลขบัตรประชาชน">
                 </div>
+                <div class="col-lg-2 mt-2">
+                    <input type="text" class="form-control" name="s_sola_no" id="s_sola_no"
+                        placeholder="หมายเลขผู้ใช้ไฟ">
+                </div>
 
                 <div class="col-lg-4 mb-2">
 
@@ -94,9 +98,9 @@
                                                             class="form-control" placeholder="นามสกุล" disabled>
                                                     </div>
                                                     <div class="col-lg-6  mt-2">
-                                                        <label><b>หมายเลขบัตรประชาชน:</b></label>
+                                                        <label><b>หมายเลขเลขผู้เสียภาษี:</b></label>
                                                         <input type="text" name="id_card"
-                                                            class="form-control" placeholder="หมายเลขบัตรประชาชน"
+                                                            class="form-control" placeholder="หมายเลขเลขผู้เสียภาษี"
                                                             disabled>
                                                     </div>
                                                     <div class="col-lg-6  mt-2">
@@ -295,18 +299,34 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="id_card">หมายเลขบัตรประชาชน <span
                                                                     class="text-danger">*</span>
                                                             </label>
-                                                            <input type="text" maxlength="13" unique="customers"
+                                                            <input type="text" maxlength="20"
                                                                 class="form-control @error('id_card') is-invalid @enderror"
                                                                 name="id_card"
                                                                 placeholder="หมายเลขบัตรประชาชน"
                                                                 value="{{ old('id_card') }}" require>
+                                                            @error('id_card')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                            <span class="error text-danger"></span>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_card">หมายเลขผู้ใช้ไฟ <span
+                                                                    class="text-danger">*</span>
+                                                            </label>
+                                                            <input type="text" maxlength="13"
+                                                                class="form-control @error('sola_no') is-invalid @enderror"
+                                                                name="sola_no"
+                                                                placeholder="หมายเลขผู้ใช้ไฟ"
+                                                                value="{{ old('sola_no') }}" require>
                                                             @error('id_card')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -502,7 +522,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header ml-4">
-                                <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มรหัสสมาชิก</b></h5>
+                                <h5 class="modal-title" id="myLargeModalLabel"><b>แก้ไขรหัสสมาชิก</b></h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <i class="las la-times"></i>
                                 </button>
@@ -865,6 +885,7 @@
 
                         d.s_first_name = $('#s_first_name').val();
                         d.s_id_card = $('#s_id_card').val();
+                        d.s_sola_no = $('#s_sola_no').val();
 
 
                     },
@@ -911,6 +932,12 @@
                     {
                         data: "id_card",
                         title: "หมายเลขบัตรประชาชน",
+                        className: "w-10",
+                    },
+
+                    {
+                        data: "sola_no",
+                        title: "หมายเลขผู้ใช้ไฟ",
                         className: "w-10",
                     },
 

@@ -84,12 +84,11 @@
                                                     </div>
 
                                                     <input type="hidden" name="customer_id" id="customer_id">
-                                                    {{-- <div class="col-lg-6 mt-2">
+                                                    <div class="col-md-3 mt-2">
 
-                                                        <input type="hidden" name="customer_id" id="customer_id">
 
-                                                    </div> --}}
-{{--
+                                                    </div>
+
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="card_amphur">เลือกประเภทบิล
@@ -97,12 +96,14 @@
                                                             <select name="bill_type" class="form-control"
                                                                 id="bill_type" required>
 
-                                                                <option value="1">Bill: 00001</option>
-                                                                <option value="2">Bill: 00002</option>
+                                                                <option value="1">STC</option>
+                                                                <option value="2">SPP</option>
 
                                                             </select>
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
+                                                    <div class="col-md-3 mt-2">
+                                                    </div>
 
 
 

@@ -112,23 +112,60 @@ class BillController extends Controller
     {
 
 
+
         try {
             DB::BeginTransaction();
             $customers = DB::table('customers')
             ->where('id','=',$rs->customer_id)
             ->first();
 
-            $code_order = \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_order();
+
+            $address_card = DB::table('customers_address_card')
+            ->select('customers_address_card.*', 'dataset_districts.name_th as tambon_name','dataset_provinces.name_th as changwat','dataset_amphures.name_th as amphure_name')
+            ->leftJoin('dataset_districts', 'customers_address_card.card_tambon_id_fk', '=', 'dataset_districts.id')
+            ->leftJoin('dataset_amphures', 'customers_address_card.card_district_id_fk', '=', 'dataset_amphures.id')
+            ->leftJoin('dataset_provinces', 'customers_address_card.card_province_id_fk', '=', 'dataset_provinces.id')
+            ->where('customers_address_card.customer_id', $rs->customer_id)
+            ->first();
+
+            $code_order = \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_order($rs->bill_type);
+            if( $customers->name_bu && $customers->name_bu != '-' ){
+                $customers_name_bu = $customers->name_bu;
+            }else{
+                $customers_name_bu = $customers->name.' '.$customers->last_name;
+
+            }
+
+            if($rs->bill_type == 1){
+                $prefix = 'STC';
+            }else{
+                $prefix = 'SPP';
+            }
+
+
             $dataPrepare = [
                 'customers_id_fk' => $rs->customer_id,
                 'customers_user_name' =>  $customers->user_name,
                 'code_order' => $code_order,
                 'order_status_id_fk' => 1,
+                'id_card'=>$customers->id_card,
+                'sola_no'=>$customers->sola_no,
+                'customers_name_bu'=>$customers_name_bu,
+                'house_no'=>$address_card->card_house_no,
+                'house_name'=>$address_card->card_home_name,
+                'moo'=> $address_card->card_moo,
+                'soi'=> $address_card->card_soi,
+                'road'=> $address_card->card_road,
+                'tambon_id'=> $address_card->card_tambon_id_fk,
+                'district_id'=> $address_card->card_district_id_fk,
+                'province_id'=> $address_card->card_province_id_fk,
+                'zipcode'=> $address_card->card_zipcode,
+                'tel'=> $customers->phone,
+                'name'=> $customers_name_bu,
+                'bill_type'=> $prefix,
 
                 // 'regis_doc4_status' => 3
             ];
-
-
 
             $get_category = DB::table('bills')
               ->insert($dataPrepare);
@@ -136,7 +173,7 @@ class BillController extends Controller
             return redirect('admin/bill/bill_create_detail/'.$code_order)->withSuccess('สร้างบิลสำเร็จ');
           } catch (Exception $e) {
             DB::rollback();
-            return redirect('/admin/bill/create')->withError('เพิ่มหมวดสินค้าไม่สำเร็จ');
+            return redirect('/admin/bill/create')->withError('สร้างบิลไม่สำเร็จ');
 
           }
 
@@ -148,16 +185,79 @@ class BillController extends Controller
         $bills = DB::table('bills')
         ->where('code_order','=',$code)
         ->count();
+
         if($bills>1){
-            return redirect('/admin/bill/create')->withError('เลขบิลซ้ำกรุณาลบรายการและทำไหม่');
+            return redirect('/admin/bill/create')->withError('สร้างบิลไม่สำเร็จ');
         }else{
-            return view('backend/bill_create_detail')->withSuccess('สร้างบิลสำเร็จ');
+            $bills_data = DB::table('bills')
+
+            ->where('bills.code_order','=',$code)
+            ->first();
+
+            $bills_history = DB::table('bills_history')
+            ->orderbyDesc('id')
+            ->first();
+
+            $bills_address = DB::table('bills')
+            ->select(
+                'house_no',
+                'house_name',
+                'moo',
+                'soi',
+                'road',
+                'dataset_districts.name_th as district',
+                'dataset_provinces.name_th as province',
+                'dataset_amphures.name_th as tambon',
+                'bills.zipcode',
+                'tel',
+            )
+            ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'bills.province_id')
+            ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'bills.district_id')
+            ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'bills.tambon_id')
+            ->where('code_order', $code)
+            ->first();
+
+            return view('backend/bill_create_detail',compact('bills_data','bills_history','bills_address'))->withSuccess('สร้างบิลสำเร็จ');
         }
 
 
+    }
+
+
+    public function update_bill(Request $rs)
+    {
+
+        $dataPrepare = [
+            'date_start' =>  $rs->date_start,
+            'date_end' => $rs->date_end,
+            'date_read' =>  $rs->date_read,
+            'date_expri_pay' =>  $rs->date_expri_pay,
+            'm' =>$rs->m,
+            'y' =>$rs->y,
+            'order_status_id_fk' =>$rs->status,
+            'peak_deman' =>$rs->peak_deman,
+            'on_peak' =>$rs->on_peak,
+            'off_peak' =>$rs->off_peak,
+            'off_peak_day_off' =>$rs->off_peak_day_off,
+
+        ];
+
+        $bills = DB::table('bills')
+        ->where('code_order','=',$rs->code_order)
+        ->update($dataPrepare);
+
+        if($bills){
+            return redirect('admin/bill/bill_create_detail/'.$rs->code_order)->withSuccess('Success');
+        }else{
+            return redirect('admin/bill/bill_create_detail/'.$rs->code_order)->withError('Fail');
+        }
 
 
     }
+
+
+
+
 
 
 

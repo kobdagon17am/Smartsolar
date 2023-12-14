@@ -42,6 +42,7 @@ class MemberRigisterController extends Controller
       ->whereRaw(("case WHEN  '{$rs->s_username}' != ''  THEN  customers.user_name = '{$rs->s_username}' else 1 END"))
       ->whereRaw(("case WHEN  '{$rs->s_first_name}' != ''  THEN  customers.name LIKE '{$rs->s_first_name}%' else 1 END"))
       ->whereRaw(("case WHEN  '{$rs->s_id_card}' != ''  THEN  customers.id_card = '{$rs->s_id_card}' else 1 END"))
+      ->whereRaw(("case WHEN  '{$rs->s_sola_no}' != ''  THEN  customers.sola_no = '{$rs->s_sola_no}' else 1 END"))
       ->orderByDesc('id');
 
       // ->whereRaw(("case WHEN '{$request['s_date']}' != '' and '{$request['e_date']}' = ''  THEN  date(ewallet.created_at) = '{$request['s_date']}' else 1 END"))
@@ -231,13 +232,19 @@ class MemberRigisterController extends Controller
   public function register(Request $request)
   {
 
-
      $user_name = self::gencode_customer();
 
      $id_card_check = Customers::where('id_card', $request->id_card)->first();
      if($id_card_check){
         redirect('admin/MemberRegister')->withError('มีรหัสบัตรประชาชนนี้เเล้ว ไม่สามารถสมัครซ้ำได้');
      }
+
+     $sola_no_check = Customers::where('id_card', $request->sola_no)->first();
+     if($sola_no_check){
+        redirect('admin/MemberRegister')->withError('มีหมายเลขผู้ใช้ไฟนี้เเล้ว ไม่สามารถสมัครซ้ำได้');
+     }
+
+
 
      $c_code = $user_name;
 
@@ -249,6 +256,7 @@ class MemberRigisterController extends Controller
      $id_card = (trim($request->input('id_card')) == '') ? null : $request->input('id_card');
      $pass = substr($id_card, -4);
      $pass_db = md5($pass);
+
 
 
      $customer_insert->password = $pass_db;
@@ -263,6 +271,8 @@ class MemberRigisterController extends Controller
      $customer_insert->name_bu = trim($request->businessname);
      $customer_insert->birth_day = trim($request->birthdate);
      $customer_insert->id_card = trim($request->id_card);
+     $customer_insert->sola_no = trim($request->sola_no);
+
     //  $customer_insert->country = trim($request->country);
     //  $customer_insert->national = trim($request->national);
      $customer_insert->phone = trim($request->phone);
@@ -275,12 +285,12 @@ class MemberRigisterController extends Controller
      $customers_address_card_insert->card_home_name = trim($request->card_home_name);
      $customers_address_card_insert->card_soi = trim($request->card_soi);
      $customers_address_card_insert->card_road = trim($request->card_road);
-     $customers_address_card_insert->card_tambon_id_fk = '1';
-     $customers_address_card_insert->card_tambon = trim($request->card_tambon);
-     $customers_address_card_insert->card_district_id_fk = '1';
-     $customers_address_card_insert->card_amphur = trim($request->card_amphur);
-     $customers_address_card_insert->card_province_id_fk = '1';
-     $customers_address_card_insert->card_changwat = trim($request->card_changwat);
+     $customers_address_card_insert->card_tambon_id_fk =trim($request->card_tambon);
+     $customers_address_card_insert->card_tambon = '';
+     $customers_address_card_insert->card_district_id_fk =trim($request->card_amphur);
+     $customers_address_card_insert->card_amphur = '';
+     $customers_address_card_insert->card_province_id_fk = trim($request->card_changwat);
+     $customers_address_card_insert->card_changwat ='';
      $customers_address_card_insert->card_zipcode = trim($request->card_zipcode);
 
 
