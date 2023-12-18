@@ -169,6 +169,8 @@ class BillController extends Controller
 
             $get_category = DB::table('bills')
               ->insert($dataPrepare);
+
+
             DB::commit();
             return redirect('admin/bill/bill_create_detail/'.$code_order)->withSuccess('สร้างบิลสำเร็จ');
           } catch (Exception $e) {
@@ -194,9 +196,21 @@ class BillController extends Controller
             ->where('bills.code_order','=',$code)
             ->first();
 
-            $bills_history = DB::table('bills_history')
-            ->orderbyDesc('id')
+
+
+            $his_m =  $bills_data->m-1;
+            $his_y =  $bills_data->y;
+            if($his_m == 0 ){
+                $his_m = '01';
+                $his_y =  $bills_data->y - 1;
+            }
+
+
+            $bills_history_old = DB::table('bills_history')
+            ->where('m','=',$his_m)
+            ->where('y','=',$his_y)
             ->first();
+
 
             $bills_address = DB::table('bills')
             ->select(
@@ -217,7 +231,7 @@ class BillController extends Controller
             ->where('code_order', $code)
             ->first();
 
-            return view('backend/bill_create_detail',compact('bills_data','bills_history','bills_address'))->withSuccess('สร้างบิลสำเร็จ');
+            return view('backend/bill_create_detail',compact('bills_data','bills_address','bills_history_old'))->withSuccess('สร้างบิลสำเร็จ');
         }
 
 
@@ -227,6 +241,118 @@ class BillController extends Controller
     public function update_bill(Request $rs)
     {
 
+        $bill_data_count = DB::table('bills')
+        ->where('code_order','=',$rs->code_order)
+        ->count();
+
+        if($bill_data_count>1){
+            return redirect('admin/bill/bill_create_detail/'.$rs->code_order)->withError('มีเลขบิลนี้ซ้ำกรุณาลบออก 1 รายการ '.$rs->code_order);
+        }
+
+
+
+
+        $bills_history = DB::table('bills_history')
+        ->where('m','=',$rs->m)
+        ->where('y','=',$rs->y)
+        ->first();
+
+        if($bills_history){
+            return redirect('admin/bill/bill_create_detail/'.$rs->code_order)->withError('มีบิลที่ถูกสร้างในเดือนนี้แล้ว หากต้องการสร้างไหม่กรุณาลบบิล '.$bills_history->code_order);
+        }else{
+
+            $bill_data = DB::table('bills')
+            ->where('code_order','=',$rs->code_order)
+            ->first();
+
+            $his_m = $rs->m-1;
+            $his_y = $rs->y;
+            if($his_m == 0 ){
+                $his_m = '01';
+                $his_y = $rs->y - 1;
+            }
+
+            $bills_history_old = DB::table('bills_history')
+            ->where('m','=',$his_m)
+            ->where('y','=',$his_y)
+            ->first();
+
+            if($bills_history_old){
+                $on_peak_deman_balance = $rs->on_peak -  $bills_history_old->on_peak;
+                $off_peak_total = $rs->off_peak+$rs->off_peak_day_off;
+
+
+                $off_peak_total_balance = $off_peak_total -  $bills_history_old->off_peak_total_balance;
+
+                $dataPrepare_bills_history = [
+                    'customers_id_fk' =>  $rs->customers_id_fk,
+                    'customers_user_name' => $rs->customers_user_name,
+                    'code_order' =>  $rs->code_order,
+                    'peak_deman' =>$rs->peak_deman,
+                    'on_peak' =>  $rs->on_peak,
+                    'on_peak_deman_old' => $bills_history_old->on_peak,
+                    'on_peak_deman_balance' => $on_peak_deman_balance,
+                    'off_peak' =>$rs->off_peak,
+                    'off_peak_day_off' =>$rs->off_peak_day_off,
+                    'off_peak_total' =>$off_peak_total,
+                    'off_peak_total_old' =>$bills_history_old->off_peak_total,
+                    'off_peak_total_balance' =>$off_peak_total,
+                    'ft' =>$rs->on_peak+$off_peak_total,
+                    'date_start' => $rs->date_start,
+                    'date_end' => $rs->date_end,
+                    'm' =>$rs->m,
+                    'y' =>$rs->y,
+
+                ];
+
+
+            }else{
+
+                $off_peak_total = $rs->off_peak+$rs->off_peak_day_off;
+                $dataPrepare_bills_history = [
+                    'customers_id_fk' =>  $rs->customers_id_fk,
+                    'customers_user_name' => $rs->customers_user_name,
+                    'code_order' =>  $rs->code_order,
+                    'peak_deman' =>$rs->peak_deman,
+
+                    'on_peak' =>  $rs->on_peak,
+                    'on_peak_deman_old' =>0,
+                    'on_peak_deman_balance' =>$rs->on_peak,
+                    'off_peak' =>$rs->off_peak,
+                    'off_peak_day_off' =>$rs->off_peak_day_off,
+                    'off_peak_total' =>$off_peak_total,
+                    'off_peak_total_old' =>0,
+                    'off_peak_total_balance' =>$off_peak_total,
+                    'ft' =>$rs->on_peak+$off_peak_total,
+                    'date_start' =>  $rs->date_start,
+                    'date_end' => $rs->date_end,
+                    'm' =>$rs->m,
+                    'y' =>$rs->y,
+
+                ];
+
+
+
+            }
+
+
+        $peak_deman_unit = DB::table('dataset_sola')
+        ->where('code','=',1)
+        ->first();
+
+        $on_peak_unit = DB::table('dataset_sola')
+        ->where('code','=',2)
+        ->first();
+
+        $off_peak_unit = DB::table('dataset_sola')
+        ->where('code','=',3)
+        ->first();
+
+        $ft_unit = DB::table('dataset_sola')
+        ->where('code','=',4)
+        ->first();
+
+
         $dataPrepare = [
             'date_start' =>  $rs->date_start,
             'date_end' => $rs->date_end,
@@ -235,22 +361,69 @@ class BillController extends Controller
             'm' =>$rs->m,
             'y' =>$rs->y,
             'order_status_id_fk' =>$rs->status,
+
             'peak_deman' =>$rs->peak_deman,
+            'peak_deman_discount' =>0,
+            'peak_deman_per_unit' =>$peak_deman_unit->unit,
+            'peak_deman_total' =>$rs->peak_deman*$peak_deman_unit->unit,
+
             'on_peak' =>$rs->on_peak,
+            'on_peak_per_unit' =>$on_peak_unit->unit,
+            'on_peak_discount' =>0,
+            'on_peak_total' =>$rs->on_peak*$on_peak_unit->unit,
+
             'off_peak' =>$rs->off_peak,
             'off_peak_day_off' =>$rs->off_peak_day_off,
+            'off_peak_per_unit' =>$off_peak_unit->unit,
+            'off_peak_discount' =>0,
+            'off_peak_total' =>($rs->off_peak+$rs->off_peak_day_off)*$off_peak_unit->unit,
+
+            'ft' =>$rs->off_peak+($rs->off_peak+$rs->off_peak_day_off),
+            'ft_per_unit' =>$ft_unit->unit,
+            'ft_discount' =>0,
+            'ft_total' =>($rs->off_peak+($rs->off_peak+$rs->off_peak_day_off))*$on_peak_unit->unit,
+
 
         ];
 
-        $bills = DB::table('bills')
-        ->where('code_order','=',$rs->code_order)
-        ->update($dataPrepare);
 
-        if($bills){
-            return redirect('admin/bill/bill_create_detail/'.$rs->code_order)->withSuccess('Success');
-        }else{
+        try {
+            DB::BeginTransaction();
+            $bills_history = DB::table('bills_history')
+            ->insert($dataPrepare_bills_history);
+
+            $bills = DB::table('bills')
+            ->where('code_order','=',$rs->code_order)
+            ->update($dataPrepare);
+
+
+
+            if($bills){
+                DB::commit();
+                return redirect('admin/bill/bill_create_detail/'.$rs->code_order)->withSuccess('Success');
+            }else{
+                DB::rollback();
+                return redirect('admin/bill/bill_create_detail/'.$rs->code_order)->withError('Fail');
+            }
+
+          } catch (Exception $e) {
+            DB::rollback();
             return redirect('admin/bill/bill_create_detail/'.$rs->code_order)->withError('Fail');
+
+          }
+
+
+
+
+
+
+
         }
+
+
+
+
+
 
 
     }

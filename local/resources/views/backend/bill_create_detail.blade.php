@@ -195,7 +195,7 @@
                                 $off_peak_day_off = $bills_data->off_peak_day_off;
                             }
                     ?>
-                    <input type="number" name="off_peak" step="any" class="form-control"
+                    <input type="number" name="off_peak_day_off" step="any" class="form-control"
                         placeholder="Peak Deman" value="{{ $off_peak_day_off }}">
 
                 </div>
@@ -227,10 +227,15 @@
                         {{-- <button type="button" class="btn btn-outline-success btn-rounded" id="search-form"><i
                                 class="las la-search font-15"></i>
                             ค้นหา</button> --}}
-
-                        <button class="btn  btn-sm btn-primary btn-rounded" type="submit"  onclick="return confirm('หากบันทึกเป็น จัดส่งเอกสาร  จะไม่สามารถแก้ไขบิลได้ ยืนยัน?')"><i
+                            @if($bills_data->date_start)
+                            @else
+                            <button class="btn  btn-sm btn-primary btn-rounded" type="submit"  onclick="return confirm('หากบันทึกเป็น จัดส่งเอกสาร  จะไม่สามารถแก้ไขบิลได้ ยืนยัน?')"><i
                                 class="las la-save font-20"></i>
                             บันทึก</button>
+
+                            @endif
+
+
                     </div>
                 </div>
 
@@ -333,7 +338,7 @@
                                             <th class="w-5">ค่าไฟฟ้าเดือนที่แล้ว(กิโลวัตต์)</th>
                                             <th class="w-5">ค่าไฟฟ้าปัจจุบัน(กิโลวัตต์)</th>
                                             <th class="w-5">ส่วนลด(%)</th>
-                                            <th class="w-5">กิโลวัตต์/หน่วย</th>
+
                                             <th class="text-right" class="w-5">หน่วย/บาท</th>
                                             <th class="text-right" class="w-5">จำนวนเงิน (บาท)</th>
 
@@ -341,8 +346,15 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>วันที่ : 01/11/2566-31/11/2566</td>
-                                            <td>12/2023</td>
+                                            <td>ค่าไฟฟ้าเดือนที่แล้ว</td>
+                                            @if($bills_history_old)
+                                            <td>วันที่ :{{date('d/m/Y',strtotime($bills_history_old->date_start))}}-{{date('d/m/Y',strtotime($bills_history_old->date_end))}}</td>
+                                            @else
+                                            <td>ไม่พบข้อมูลบิลเดือนก่อนหน้า</td>
+                                            @endif
+                                            <td></td>
+                                            <td></td>
+
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -350,54 +362,70 @@
                                         </tr>
                                         <tr>
                                             <td>ค่าความต้องการพลีงงานไฟฟ้า Peak Deman</td>
-                                            <td>111</td>
-                                            <td>111</td>
-                                            <td class="text-right">
+                                            @if($bills_history_old)
+                                            <td>{{number_format($bills_history_old->peak_deman,6)}}</td>
+                                            @else
+                                            <td></td>
+                                            @endif
 
-
-                                                        <input type="number" name="peak" style="width: 150px" class="form-control" value="0.00">
-                                            </td>
-                                            <td class="text-right">99.6975</td>
-                                            <td class="text-right">99.6975</td>
-                                            <td class="text-right">0</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) On-Peak ส่วนลด 25%</td>
-                                            <td>111</td>
-                                            <td>111</td>
+                                            <td class="">{{number_format($bills_data->peak_deman,6)}}</td>
                                             <td class="text-right">
                                                 <input type="number" name="peak" style="width: 150px" class="form-control" value="0.00">
                                             </td>
-                                            <td class="text-right">99.6975</td>
-                                            <td class="text-right">99.6975</td>
-                                            <td class="text-right">0</td>
+
+                                            <td class="text-right">{{number_format($bills_data->peak_deman_per_unit,6)}}</td>
+                                            <td class="text-right">{{number_format($bills_data->peak_deman_total,6)}}</td>
 
                                         </tr>
-
                                         <tr>
-                                            <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) off-Peak ส่วนลด 25%</td>
-                                            <td>111</td>
-                                            <td>111</td>
+                                            <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) On-Peak</td>
+                                            @if($bills_history_old)
+                                            <td>{{number_format($bills_history_old->on_peak_deman_balance,6)}}</td>
+                                            @else
+                                            <td></td>
+                                            @endif
+
+                                            <td class=" ">{{number_format($bills_data->on_peak,6)}}</td>
                                             <td class="text-right">
                                                 <input type="number" name="peak" style="width: 150px" class="form-control" value="0.00">
                                             </td>
-                                            <td class="text-right">99.6975</td>
-                                            <td class="text-right">99.6975</td>
-                                            <td class="text-right">0</td>
+
+                                            <td class="text-right">{{number_format($bills_data->on_peak_per_unit,6)}}</td>
+                                            <td class="text-right">{{number_format($bills_data->on_peak_total,6)}}</td>
 
                                         </tr>
 
                                         <tr>
-                                            <td>ค่า FT - ส่วนลด 25%</td>
-                                            <td>111</td>
-                                            <td >123</td>
+                                            <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) off-Peak</td>
+                                            @if($bills_history_old)
+                                            <td>{{number_format($bills_history_old->off_peak_total_balance,6)}}</td>
+                                            @else
+                                            <td></td>
+                                            @endif
+                                            <td class=" ">{{number_format($bills_data->off_peak+$bills_data->off_peak_day_off,6)}}</td>
                                             <td class="text-right">
                                                 <input type="number" name="peak" style="width: 150px" class="form-control" value="0.00">
                                             </td>
-                                            <td class="text-right">99.6975</td>
-                                            <td class="text-right">99.6975</td>
-                                            <td class="text-right">0</td>
+
+                                            <td class="text-right">{{number_format($bills_data->off_peak_per_unit,6)}}</td>
+                                            <td class="text-right">{{number_format($bills_data->off_peak_total,6)}}</td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td>ค่า FT </td>
+                                            @if($bills_history_old)
+                                            <td>{{number_format($bills_history_old->ft,6)}}</td>
+                                            @else
+                                            <td></td>
+                                            @endif
+                                            <td class=" ">{{number_format($bills_data->on_peak+$bills_data->off_peak+$bills_data->off_peak_day_off,6)}}</td>
+                                            <td class="text-right">
+                                                <input type="number" name="peak" style="width: 150px" class="form-control" value="0.00">
+                                            </td>
+
+                                            <td class="text-right">{{number_format($bills_data->ft_per_unit,6)}}</td>
+                                            <td class="text-right">{{number_format($bills_data->ft_total,6)}}</td>
 
                                         </tr>
                                     </tbody>
@@ -417,20 +445,28 @@
                                         <p class="">รวมเงินค่าไฟฟ้า: </p>
                                     </div>
                                     <div class="col-sm-6 col-5">
-                                        <p class="">$51500</p>
+                                        <?php
+                                        $price_sum = $bills_data->ft_total+$bills_data->off_peak_total+$bills_data->on_peak_total;
+
+                                        ?>
+                                        <p class="">{{number_format($price_sum,6)}}</p>
                                     </div>
                                     <div class="col-sm-6 col-7">
                                         <p class="">ภาษีมูลค่าเพิ่ม 7%: </p>
                                     </div>
                                     <div class="col-sm-6 col-5">
-                                        <p class="">$200</p>
+                                        <?php
+                                            $price_sum_vat =($price_sum)*7/100;
+
+                                            ?>
+                                        <p class="">{{number_format(($price_sum)*7/100,6)}}</p>
                                     </div>
 
                                     <div class="col-sm-6 col-7 grand-total-title">
                                         <h4 class="">รวมเงินค่าไฟฟ้าทั้งสิ้น : </h4>
                                     </div>
                                     <div class="col-sm-6 col-5 grand-total-amount">
-                                        <h4 class="">$51200</h4>
+                                        <h4 class="">{{number_format($price_sum+$price_sum_vat,6)}}</h4>
                                     </div>
                                     <div class="col-sm-6 col-7 grand-total-title">
                                         <h4 class="">รวมเงินค่าไฟฟ้าทั้งสิ้น (ตัวอักษร): </h4>
