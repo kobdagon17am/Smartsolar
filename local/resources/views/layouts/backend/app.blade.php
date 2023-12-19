@@ -137,7 +137,7 @@
                         </div>
                     </div>
                 </li> --}}
-                <li class="nav-item dropdown notification-dropdown">
+                {{-- <li class="nav-item dropdown notification-dropdown">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle position-relative" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="las la-bell"></i>
                         <div class="blink">
@@ -174,27 +174,27 @@
                             </div>
                         </div>
                     </div>
-                </li>
+                </li> --}}
                 <li class="nav-item dropdown user-profile-dropdown">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <img src="{{asset('backend/assets/img/profile-16.jpg')}}" alt="avatar">
+                        <img src="{{asset('backend/assets/img/user.png')}}" alt="avatar">
                     </a>
                     <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                         <div class="nav-drop is-account-dropdown" >
                             <div class="inner">
                                 <div class="nav-drop-header">
-                                      <span class="text-primary font-15">Welcome Admin !</span>
+                                      <span class="text-primary font-15">Welcome {{Auth::guard('admin')->user()->first_name}} !</span>
                                 </div>
                                 <div class="nav-drop-body account-items pb-0">
                                     <a id="profile-link"  class="account-item" href="pages_profile.html">
                                         <div class="media align-center">
                                             <div class="media-left">
                                                 <div class="image">
-                                                    <img class="rounded-circle avatar-xs" src="{{ asset('backend/assets/img/profile-16.jpg')}}" alt="">
+                                                    <img class="rounded-circle avatar-xs" src="{{ asset('backend/assets/img/user.png')}}" alt="">
                                                 </div>
                                             </div>
                                             <div class="media-content ml-3">
-                                                <h6 class="font-13 mb-0 strong">Smartsolar</h6>
+                                                <h6 class="font-13 mb-0 strong">{{Auth::guard('admin')->user()->first_name}} </h6>
                                             </div>
                                             <div class="media-right">
                                                 <i data-feather="check"></i>

@@ -60,6 +60,18 @@ Route::get('admin/Blank', function () {
 
   Route::post('admin/bill/update_bill', 'Admin\BillController@update_bill')->name('admin/bill/update_bill');
 
+  Route::get('admin/bill/bill_lis_datatable', 'Admin\BillController@bill_lis_datatable')->name('admin/bill/bill_lis_datatable');
+
+  Route::post('admin/delete_bill', 'Admin\BillController@delete_bill')->name('admin/delete_bill');
+
+  Route::post('admin/bill/edit_bill', 'Admin\BillController@edit_bill')->name('admin/bill/edit_bill');
+
+  Route::post('admin/bill/edit_bill_discoute', 'Admin\BillController@edit_bill_discoute')->name('admin/bill/edit_bill_discoute');
+
+
+
+
+
 
 
 

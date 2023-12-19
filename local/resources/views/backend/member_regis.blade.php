@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-lg-2 mt-2">
                     <input type="text" class="form-control" name="id_card" id="s_id_card"
-                        placeholder="หมายเลขบัตรประชาชน">
+                        placeholder="หมายเลขผู้เสียภาษี">
                 </div>
                 <div class="col-lg-2 mt-2">
                     <input type="text" class="form-control" name="s_sola_no" id="s_sola_no"
@@ -170,9 +170,9 @@
                                                             class="form-control" placeholder="นามสกุล" disabled>
                                                     </div>
                                                     <div class="col-lg-6  mt-2">
-                                                        <label><b>หมายเลขบัตรประชาชน:</b></label>
+                                                        <label><b>หมายเลขผู้เสียภาษี:</b></label>
                                                         <input type="text" name="id_card" id="id_card_cancel"
-                                                            class="form-control" placeholder="หมายเลขบัตรประชาชน"
+                                                            class="form-control" placeholder="หมายเลขผู้เสียภาษี"
                                                             disabled>
                                                     </div>
                                                     <div class="info-area col-md-12 text-center mt-4 ">
@@ -301,13 +301,13 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_card">หมายเลขบัตรประชาชน <span
+                                                            <label for="id_card">หมายเลขผู้เสียภาษี <span
                                                                     class="text-danger">*</span>
                                                             </label>
                                                             <input type="text" maxlength="20"
                                                                 class="form-control @error('id_card') is-invalid @enderror"
                                                                 name="id_card"
-                                                                placeholder="หมายเลขบัตรประชาชน"
+                                                                placeholder="หมายเลขผู้เสียภาษี"
                                                                 value="{{ old('id_card') }}" require>
                                                             @error('id_card')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -622,13 +622,13 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_card">หมายเลขบัตรประชาชน <span
+                                                            <label for="id_card">หมายเลขผู้เสียภาษี <span
                                                                     class="text-danger">*</span>
                                                             </label>
                                                             <input type="text" maxlength="13" unique="customers"
                                                                 class="form-control @error('id_card') is-invalid @enderror"
                                                                 name="id_card"
-                                                                placeholder="หมายเลขบัตรประชาชน"
+                                                                placeholder="หมายเลขผู้เสียภาษี"
                                                                 value="{{ old('id_card') }}" require>
                                                             @error('id_card')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -931,7 +931,7 @@
 
                     {
                         data: "id_card",
-                        title: "หมายเลขบัตรประชาชน",
+                        title: "หมายเลขผู้เสียภาษี",
                         className: "w-10",
                     },
 
