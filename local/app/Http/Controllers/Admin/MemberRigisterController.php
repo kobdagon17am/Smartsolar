@@ -267,9 +267,9 @@ class MemberRigisterController extends Controller
      $customer_insert->prefix_name = trim($request->prefix);
      $customer_insert->name = trim($request->firstname);
      $customer_insert->last_name = trim($request->lastname);
-     $customer_insert->family_status = trim($request->marital_status);
+
      $customer_insert->name_bu = trim($request->businessname);
-     $customer_insert->birth_day = trim($request->birthdate);
+    //  $customer_insert->birth_day = trim($request->birthdate);
      $customer_insert->id_card = trim($request->id_card);
      $customer_insert->sola_no = trim($request->sola_no);
 

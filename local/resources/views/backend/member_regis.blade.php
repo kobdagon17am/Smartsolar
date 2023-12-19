@@ -47,7 +47,7 @@
                     <div class="button-list mt-2">
                         <button type="button" class="btn btn-outline-success btn-rounded" id="search-form"><i
                                 class="las la-search font-15"></i>
-                            สืบค้น</button>
+                            ค้นหา</button>
 
                         <button class="btn  btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#add"><i
                                 class="las la-plus-circle font-20"></i>
@@ -62,140 +62,6 @@
 
 
 
-            <div class="row">
-                <div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog"
-                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header ml-4">
-                                <h5 class="modal-title" id="myLargeModalLabel"><b>แก้ไขรหัสผ่าน</b></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <i class="las la-times"></i>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="modal-text">
-                                <div class="widget-content widget-content-area">
-                                    <div class="form-group row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12">
-                                            <form method="post" action="{{ route('admin/edit_password') }}">
-                                                @csrf
-                                                <div class="row">
-                                                    <div class="col-lg-6 mt-2">
-                                                        <label><b>รหัสสมาชิก:</b></label>
-                                                        <input type="hidden" name="id" id="id">
-                                                        <input type="text" name="username" id="username"
-                                                            class="form-control" placeholder="รหัสสมาชิก" disabled>
-                                                    </div>
-                                                    <div class="col-lg-6  mt-2">
-                                                        <label><b>ชื่อ:</b></label>
-                                                        <input type="text" name="fisrt_name" id="fisrt_name"
-                                                            class="form-control" placeholder="ชื่อ" disabled>
-                                                    </div>
-                                                    <div class="col-lg-6  mt-2">
-                                                        <label><b>นามสกุล:</b></label>
-                                                        <input type="text" name="last_name" id="last_name"
-                                                            class="form-control" placeholder="นามสกุล" disabled>
-                                                    </div>
-                                                    <div class="col-lg-6  mt-2">
-                                                        <label><b>หมายเลขเลขผู้เสียภาษี:</b></label>
-                                                        <input type="text" name="id_card"
-                                                            class="form-control" placeholder="หมายเลขเลขผู้เสียภาษี"
-                                                            disabled>
-                                                    </div>
-                                                    <div class="col-lg-6  mt-2">
-                                                        <label><b>รหัสผ่านใหม่:</b></label>
-                                                        <input type="text" name="password_new" id="password_new"
-                                                            class="form-control" placeholder="รหัสผ่านใหม่" required>
-                                                    </div>
-                                                    <div class="col-lg-6  mt-2">
-                                                        <label><b>ยืนยันรหัสผ่านใหม่:</b></label>
-                                                        <input type="text" name="password_new_confirm"
-                                                            id="password_new_confirm" class="form-control"
-                                                            placeholder="ยืนยันรหัสผ่านใหม่" required>
-                                                    </div>
-                                                    <div class="info-area col-md-12 text-center mt-4 ">
-                                                        <button type="submit" class="btn btn-info btn-rounded">
-                                                            <i class="las la-save"></i>
-                                                            แก้ไขรหัสผ่าน</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div class="row">
-                <div class="modal fade bd-example-modal-lg" id="cancel_member" tabindex="-1" role="dialog"
-                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header ml-4">
-                                <h5 class="modal-title" id="myLargeModalLabel"><b>ยกเลิกรหัสสมาชิก</b></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <i class="las la-times"></i>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="modal-text">
-                                <div class="widget-content widget-content-area">
-                                    <div class="form-group row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12">
-                                            <form method="post" action="{{ route('admin/cancel_member') }}">
-                                                @csrf
-                                                <div class="row">
-                                                    <div class="col-lg-6 mt-2">
-                                                        <label><b>รหัสสมาชิก:</b></label>
-                                                        <input type="hidden" name="id" id="id_cancel">
-                                                        <input type="text" name="username" id="username_cancel"
-                                                            class="form-control" placeholder="รหัสสมาชิก" disabled>
-                                                    </div>
-                                                    <div class="col-lg-6  mt-2">
-                                                        <label><b>ชื่อ:</b></label>
-                                                        <input type="text" name="fisrt_name" id="fisrt_name_cancel"
-                                                            class="form-control" placeholder="ชื่อ" disabled>
-                                                    </div>
-                                                    <div class="col-lg-6  mt-2">
-                                                        <label><b>นามสกุล:</b></label>
-                                                        <input type="text" name="last_name" id="last_name_cancel"
-                                                            class="form-control" placeholder="นามสกุล" disabled>
-                                                    </div>
-                                                    <div class="col-lg-6  mt-2">
-                                                        <label><b>หมายเลขผู้เสียภาษี:</b></label>
-                                                        <input type="text" name="id_card" id="id_card_cancel"
-                                                            class="form-control" placeholder="หมายเลขผู้เสียภาษี"
-                                                            disabled>
-                                                    </div>
-                                                    <div class="info-area col-md-12 text-center mt-4 ">
-                                                        <button type="submit" class="btn btn-info btn-rounded"
-                                                            name="cencel_member" value="confirm">
-                                                            <i class="las la-save"></i>
-                                                            ยกเลิกรหัสสมาชิก</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
 
             <div class="row">
                 <div class="modal fade bd-example-modal-lg" id="add" tabindex="-1" role="dialog"
@@ -222,9 +88,9 @@
                                                             <label for="prefix">คำนำหน้าชื่อ
                                                                 <span class="text-danger"> </span></label>
                                                             <select name="prefix" class="form-control"  >
-                                                                <option>นาย</option>
-                                                                <option>นาง</option>
-                                                                <option>นางสาว</option>
+                                                                <option value="นาย">นาย</option>
+                                                                <option value="นาง">นาง</option>
+                                                                <option value="นางสาว">นางสาว</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -256,19 +122,7 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label for="marital_status">สถานภาพ
-                                                                <span
-                                                                    class="text-danger marital_status_err _err"></span></label>
-                                                            <select name="marital_status" class="form-control"
-                                                                id="marital_status">
-                                                                <option>โสด</option>
-                                                                <option>สมรส</option>
-                                                                <option>หย่าร้าง</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+
                                                     <div class="col-md-5">
                                                         <div class="form-group">
                                                             <label for="businessname">ชื่อในทางธุรกิจ
@@ -284,21 +138,7 @@
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-5">
-                                                        <div class="form-group">
-                                                            <label for="birthdate">วัน/เดือน/ปี เกิด
-                                                                <span class="text-danger">*</span></label>
-                                                            <div>
-                                                                <input type="date"
-                                                                    class="form-control @error('birthdate') is-invalid @enderror"
-                                                                    name="birthdate" placeholder="yyyy-mm-dd"
-                                                                    value="{{ old('birthdate') }}" required>
-                                                                @error('birthdate')
-                                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="id_card">หมายเลขผู้เสียภาษี <span
@@ -322,7 +162,7 @@
                                                             <label for="id_card">หมายเลขผู้ใช้ไฟ <span
                                                                     class="text-danger">*</span>
                                                             </label>
-                                                            <input type="text" maxlength="13"
+                                                            <input type="text" maxlength="20"
                                                                 class="form-control @error('sola_no') is-invalid @enderror"
                                                                 name="sola_no"
                                                                 placeholder="หมายเลขผู้ใช้ไฟ"
@@ -377,7 +217,7 @@
                                                                 </span></label>
                                                             <input type="text"
                                                                 class="form-control @error('card_no') is-invalid @enderror"
-                                                                name="card_no" id="card_no" placeholder="บ้านเลขที่"
+                                                                name="card_no" placeholder="บ้านเลขที่"
                                                                 value="{{ old('card_no') }}" required>
                                                             @error('card_no')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -522,7 +362,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header ml-4">
-                                <h5 class="modal-title" id="myLargeModalLabel"><b>แก้ไขรหัสสมาชิก</b></h5>
+                                <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มรหัสสมาชิก</b></h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <i class="las la-times"></i>
                                 </button>
@@ -540,10 +380,10 @@
                                                         <div class="form-group">
                                                             <label for="prefix">คำนำหน้าชื่อ
                                                                 <span class="text-danger"> </span></label>
-                                                            <select name="prefix" class="form-control" id="prefix">
-                                                                <option>นาย</option>
-                                                                <option>นาง</option>
-                                                                <option>นางสาว</option>
+                                                            <select name="prefix" class="form-control"  id="prefix">
+                                                                <option value="นาย">นาย</option>
+                                                                <option value="นาง">นาง</option>
+                                                                <option value="นางสาว">นางสาว</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -553,8 +393,7 @@
                                                                 <span class="text-danger">*</span></label>
                                                             <input type="text"
                                                                 class="form-control @error('firstname') is-invalid @enderror"
-                                                                name="firstname" id="firstname" placeholder="ชื่อ"
-                                                                value="{{ old('firstname') }}" required>
+                                                                name="firstname" placeholder="ชื่อ" id="firstname" required>
                                                             @error('firstname')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -567,27 +406,14 @@
                                                                 <span class="text-danger">*</span></label>
                                                             <input type="text"
                                                                 class="form-control @error('lastname') is-invalid @enderror"
-                                                                name="lastname" id="lastname" placeholder="นามสุกล"
-                                                                value="{{ old('lastname') }}" required>
+                                                                name="lastname" placeholder="นามสุกล"  id="lastname" required>
                                                             @error('lastname')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label for="marital_status">สถานภาพ
-                                                                <span
-                                                                    class="text-danger marital_status_err _err"></span></label>
-                                                            <select name="marital_status" class="form-control"
-                                                                id="marital_status">
-                                                                <option>โสด</option>
-                                                                <option>สมรส</option>
-                                                                <option>หย่าร้าง</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+
                                                     <div class="col-md-5">
                                                         <div class="form-group">
                                                             <label for="businessname">ชื่อในทางธุรกิจ
@@ -596,40 +422,39 @@
                                                                     (-)</span></label>
                                                             <input type="text"
                                                                 class="form-control @error('businessname') is-invalid @enderror"
-                                                                name="businessname" id="businessname" placeholder="ชื่อในทางธุรกิจ"
-                                                                value="{{ old('businessname') }}" required>
+                                                                name="businessname" placeholder="ชื่อในทางธุรกิจ" id="businessname" required>
                                                             @error('businessname')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-5">
-                                                        <div class="form-group">
-                                                            <label for="birthdate">วัน/เดือน/ปี เกิด
-                                                                <span class="text-danger">*</span></label>
-                                                            <div>
-                                                                <input type="date"
-                                                                    class="form-control @error('birthdate') is-invalid @enderror"
-                                                                    name="birthdate" id="birthdate" placeholder="yyyy-mm-dd"
-                                                                    value="{{ old('birthdate') }}" required>
-                                                                @error('birthdate')
-                                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="id_card">หมายเลขผู้เสียภาษี <span
                                                                     class="text-danger">*</span>
                                                             </label>
-                                                            <input type="text" maxlength="13" unique="customers"
+                                                            <input type="text" maxlength="20"
                                                                 class="form-control @error('id_card') is-invalid @enderror"
                                                                 name="id_card"
-                                                                placeholder="หมายเลขผู้เสียภาษี"
-                                                                value="{{ old('id_card') }}" require>
+                                                                placeholder="หมายเลขผู้เสียภาษี" id="id_card" require>
+                                                            @error('id_card')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                            <span class="error text-danger"></span>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_card">หมายเลขผู้ใช้ไฟ <span
+                                                                    class="text-danger">*</span>
+                                                            </label>
+                                                            <input type="text" maxlength="20"
+                                                                class="form-control @error('sola_no') is-invalid @enderror"
+                                                                name="sola_no"
+                                                                placeholder="หมายเลขผู้ใช้ไฟ" id="sola_no" require>
                                                             @error('id_card')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -643,8 +468,7 @@
                                                                 <span class="text-danger">*</span></label>
                                                             <input type="text"
                                                                 class="form-control @error('phone') is-invalid @enderror"
-                                                                name="phone" placeholder="หมายเลขโทรศัพท์"
-                                                                value="{{ old('phone') }}" maxlength="10"
+                                                                name="phone" placeholder="หมายเลขโทรศัพท์" id="phone" maxlength="10"
                                                                 minlength="10" required>
                                                             @error('phone')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -658,8 +482,7 @@
 
                                                             <input type="email"
                                                                 class="form-control @error('email') is-invalid @enderror"
-                                                                name="email" placeholder="email@example.com"
-                                                                value="{{ old('email') }}">
+                                                                name="email" placeholder="email@example.com" id="email">
                                                             @error('email')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -680,8 +503,7 @@
                                                                 </span></label>
                                                             <input type="text"
                                                                 class="form-control @error('card_no') is-invalid @enderror"
-                                                                name="card_no" id="card_no" placeholder="บ้านเลขที่"
-                                                                value="{{ old('card_no') }}" required>
+                                                                name="card_no" placeholder="บ้านเลขที่" id="card_no" required>
                                                             @error('card_no')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -694,8 +516,7 @@
                                                                 </span></label>
                                                             <input type="text"
                                                                 class="form-control @error('card_moo') is-invalid @enderror"
-                                                                name="card_moo" id="card_moo" placeholder="หมู่ที่"
-                                                                value="{{ old('card_moo') }}" required>
+                                                                name="card_moo"   placeholder="หมู่ที่" id="card_moo" required>
                                                             @error('card_moo')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -708,9 +529,8 @@
                                                                 </span></label>
                                                             <input type="text"
                                                                 class="form-control @error('card_home_name') is-invalid @enderror"
-                                                                name="card_home_name" id="card_home_name"
-                                                                placeholder="หมู่บ้าน/อาคาร"
-                                                                value="{{ old('card_home_name') }}" required>
+                                                                name="card_home_name"
+                                                                placeholder="หมู่บ้าน/อาคาร" id="card_home_name"  required>
                                                             @error('card_home_name')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -722,8 +542,7 @@
                                                             </label>
                                                             <input type="text"
                                                                 class="form-control @error('card_soi') is-invalid @enderror"
-                                                                name="card_soi" id="card_soi" placeholder="ตรอก/ซอย"
-                                                                value="{{ old('card_soi') }}">
+                                                                name="card_soi"   placeholder="ตรอก/ซอย" id="card_soi" >
                                                             @error('card_soi')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -735,8 +554,7 @@
                                                             </label>
                                                             <input type="text"
                                                                 class="form-control @error('card_road') is-invalid @enderror"
-                                                                name="card_road" id="card_road" placeholder="ถนน"
-                                                                value="{{ old('card_road') }}">
+                                                                name="card_road"   placeholder="ถนน" id="card_road">
                                                             @error('card_road')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -749,8 +567,8 @@
                                                                 <span class="text-danger">*</span></label>
 
                                                             <select name="card_changwat" class="form-control basic"
-                                                                id="card_changwat" required>
-                                                                <option value="">เลือกจังหวัด</option>
+                                                                id="e_card_changwat" required>
+
                                                                 @foreach ($province as $value_provinces)
                                                                     <option value="{{ $value_provinces->id }}"
                                                                         @if ($value_provinces->id == old('card_province')) selected @endif>
@@ -766,8 +584,8 @@
                                                         <div class="form-group">
                                                             <label for="card_amphur">เขต/อำเภอ
                                                                 <span class="text-danger">*</span></label>
-                                                            <select name="card_amphur" class="form-control"
-                                                                id="card_amphur" disabled required>
+                                                            <select name="card_amphur"  class="form-control"
+                                                                id="e_card_amphur" disabled required>
                                                                 <option value="">เลือกเขต/อำเภอ</option>
 
                                                             </select>
@@ -779,7 +597,7 @@
                                                             <label for="card_tambon">แขวง/ตำบล
                                                                 <span class="text-danger">*</span></label>
                                                             <select name="card_tambon" class="form-control"
-                                                                id="card_tambon" disabled required>
+                                                                id="e_card_tambon" disabled required>
                                                                 <option value="">เลือกแขวง/ตำบล</option>
 
                                                             </select>
@@ -794,7 +612,7 @@
                                                             <input type="text"
                                                                 class="form-control @error('card_zipcode') is-invalid @enderror"
                                                                 name="card_zipcode" placeholder="รหัสไปรษณีย์"
-                                                                id="card_zipcode" value="{{ old('card_zipcode') }}"
+                                                                id="e_card_zipcode" value="{{ old('card_zipcode') }}"
                                                                 required disabled>
                                                             @error('card_zipcode')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -803,7 +621,7 @@
                                                     </div>
                                                     <div class="info-area col-md-12 text-right">
                                                         <button type="submit" class="btn btn-info mr-2">
-                                                            <i class="las la-save"></i></i> ยืนยันข้อมูลการสมัคร</button>
+                                                            <i class="las la-save"></i></i> ยืนยันการแก้ไขข้อมูล</button>
                                                     </div>
                                                 </div>
 
@@ -818,6 +636,9 @@
                     </div>
                 </div>
             </div>
+
+
+
 
             <div class="row">
                 <div class="table-responsive mt-2 mb-2">
@@ -994,30 +815,7 @@
 
         function edit_customer(id) {
 
-            $("#edit_customer").modal();
 
-            // $.ajax({
-            //         url: '{{ route('admin/view_password') }}',
-            //         type: 'GET',
-            //         data: {
-            //             id
-            //         }
-            //     })
-            //     .done(function(data) {
-            //         console.log(data);
-
-            //         $("#edit_customer").modal();
-
-            //     })
-            //     .fail(function() {
-            //         console.log("error");
-            //     })
-        }
-
-
-
-
-        function cancel_member(id) {
 
             $.ajax({
                     url: '{{ route('admin/view_member_data') }}',
@@ -1028,18 +826,30 @@
                 })
                 .done(function(data) {
                     console.log(data);
-                    $("#cancel_member").modal();
-                    $("#id_cancel").val(data['data']['id']);
-                    $("#username_cancel").val(data['data']['user_name']);
-                    $("#fisrt_name_cancel").val(data['data']['name']);
-                    $("#last_name_cancel").val(data['data']['last_name']);
-                    $("#id_card_cancel").val(data['data']['id_card']);
+
+
+
+                    $("#prefix_name").val(data['data']['prefix_name']);
+                    $("#name").val(data['data']['name']);
+                    $("#last_name").val(data['data']['last_name']);
+                    $("#name_bu").val(data['data']['name_bu']);
+                    $("#id_card").val(data['data']['id_card']);
+                    $("#sola_no").val(data['data']['sola_no']);
+                    $("#email").val(data['data']['phone']);
+                    $("#sola_no").val(data['data']['email']);
+
+                    $("#edit_customer").modal();
+
 
                 })
                 .fail(function() {
                     console.log("error");
                 })
         }
+
+
+
+
     </script>
 
 
