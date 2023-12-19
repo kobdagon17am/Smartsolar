@@ -308,7 +308,7 @@
                                         <img src="{{ asset('frontend/images/stc.png') }}" width="200">
                                     @endif
                                     @if ($bills_data->bill_type == 'SPP')
-                                        <img src="{{ asset('frontend/images/logo.png') }}" width="200">
+                                        <img src="{{ asset('frontend/images/spp.png') }}" width="200">
                                     @endif
                                 </div>
                             </div>
