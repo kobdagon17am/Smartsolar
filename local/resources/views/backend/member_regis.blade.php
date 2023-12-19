@@ -207,7 +207,7 @@
                                                         <i class="las la-save"></i> ยืนยันข้อมูลการสมัคร</button> --}}
                                                     </div>
                                                 </div>
-                                                <h6 class="font-16 mb-3"><b>ที่อยู่ตามบัตรประชาชน (ADDRESS)</b></h6>
+                                                <h6 class="font-16 mb-3"><b>ที่อยู่การจัดส่งเอกสาร (ADDRESS)</b></h6>
                                                 <hr>
                                                 <div class="row">
                                                     <div class="col-md-3">
@@ -362,7 +362,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header ml-4">
-                                <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มรหัสสมาชิก</b></h5>
+                                <h5 class="modal-title" id="myLargeModalLabel"><b>แก้ไขรายละเอียด</b></h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <i class="las la-times"></i>
                                 </button>
@@ -372,9 +372,9 @@
                                 <div class="widget-content widget-content-area">
                                     <div class="form-group row">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
-                                            <form method="post" action="{{ route('admin/register') }}">
+                                            <form method="post" action="{{ route('admin/register_edit') }}">
                                                 @csrf
-
+                                                <input type="hidden" name="e_customer_id" id="e_customer_id" >
                                                 <div class="row">
                                                     <div class="col-md-2">
                                                         <div class="form-group">
@@ -493,7 +493,7 @@
                                                         <i class="las la-save"></i> ยืนยันข้อมูลการสมัคร</button> --}}
                                                     </div>
                                                 </div>
-                                                <h6 class="font-16 mb-3"><b>ที่อยู่ตามบัตรประชาชน (ADDRESS)</b></h6>
+                                                <h6 class="font-16 mb-3"><b>ที่อยู่การจัดส่งเอกสาร (ADDRESS)</b></h6>
                                                 <hr>
                                                 <div class="row">
                                                     <div class="col-md-3">
@@ -503,7 +503,7 @@
                                                                 </span></label>
                                                             <input type="text"
                                                                 class="form-control @error('card_no') is-invalid @enderror"
-                                                                name="card_no" placeholder="บ้านเลขที่" id="card_no" required>
+                                                                name="card_no" placeholder="บ้านเลขที่" id="e_card_no" required>
                                                             @error('card_no')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -516,7 +516,7 @@
                                                                 </span></label>
                                                             <input type="text"
                                                                 class="form-control @error('card_moo') is-invalid @enderror"
-                                                                name="card_moo"   placeholder="หมู่ที่" id="card_moo" required>
+                                                                name="card_moo"   placeholder="หมู่ที่" id="e_card_moo" required>
                                                             @error('card_moo')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -530,7 +530,7 @@
                                                             <input type="text"
                                                                 class="form-control @error('card_home_name') is-invalid @enderror"
                                                                 name="card_home_name"
-                                                                placeholder="หมู่บ้าน/อาคาร" id="card_home_name"  required>
+                                                                placeholder="หมู่บ้าน/อาคาร" id="e_card_home_name"  required>
                                                             @error('card_home_name')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -542,7 +542,7 @@
                                                             </label>
                                                             <input type="text"
                                                                 class="form-control @error('card_soi') is-invalid @enderror"
-                                                                name="card_soi"   placeholder="ตรอก/ซอย" id="card_soi" >
+                                                                name="card_soi"   placeholder="ตรอก/ซอย" id="e_card_soi" >
                                                             @error('card_soi')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -554,7 +554,7 @@
                                                             </label>
                                                             <input type="text"
                                                                 class="form-control @error('card_road') is-invalid @enderror"
-                                                                name="card_road"   placeholder="ถนน" id="card_road">
+                                                                name="card_road" placeholder="ถนน" id="e_card_road">
                                                             @error('card_road')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -584,10 +584,11 @@
                                                         <div class="form-group">
                                                             <label for="card_amphur">เขต/อำเภอ
                                                                 <span class="text-danger">*</span></label>
-                                                            <select name="card_amphur"  class="form-control"
-                                                                id="e_card_amphur" disabled required>
-                                                                <option value="">เลือกเขต/อำเภอ</option>
-
+                                                            <select name="card_amphur"  class="form-control" id="e_card_amphur"  required>
+                                                                @foreach ($amphures as $value_amphures)
+                                                                <option value="{{ $value_amphures->id }}" >
+                                                                    {{ $value_amphures->name_th }}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -596,9 +597,11 @@
                                                         <div class="form-group">
                                                             <label for="card_tambon">แขวง/ตำบล
                                                                 <span class="text-danger">*</span></label>
-                                                            <select name="card_tambon" class="form-control"
-                                                                id="e_card_tambon" disabled required>
-                                                                <option value="">เลือกแขวง/ตำบล</option>
+                                                            <select name="card_tambon" class="form-control" id="e_card_tambon"  required>
+                                                                @foreach ($districts as $value_districts)
+                                                                <option value="{{ $value_districts->id }}">
+                                                                    {{ $value_districts->name_th }}</option>
+                                                                @endforeach
 
                                                             </select>
                                                         </div>
@@ -611,9 +614,7 @@
                                                                 </span></label>
                                                             <input type="text"
                                                                 class="form-control @error('card_zipcode') is-invalid @enderror"
-                                                                name="card_zipcode" placeholder="รหัสไปรษณีย์"
-                                                                id="e_card_zipcode" value="{{ old('card_zipcode') }}"
-                                                                required disabled>
+                                                                name="card_zipcode" placeholder="รหัสไปรษณีย์" id="e_card_zipcode" required >
                                                             @error('card_zipcode')
                                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
@@ -789,29 +790,6 @@
 
         });
 
-        function edit(id) {
-
-            $.ajax({
-                    url: '{{ route('admin/view_password') }}',
-                    type: 'GET',
-                    data: {
-                        id
-                    }
-                })
-                .done(function(data) {
-                    console.log(data);
-                    $("#edit").modal();
-                    $("#id").val(data['data']['id']);
-                    $("#username").val(data['data']['username']);
-                    $("#first_name").val(data['data']['first_name']);
-                    $("#last_name").val(data['data']['last_name']);
-                    $("#id_card").val(data['data']['id_card']);
-
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-        }
 
         function edit_customer(id) {
 
@@ -826,17 +804,27 @@
                 })
                 .done(function(data) {
                     console.log(data);
+                    $("#e_customer_id").val(data['data']['id']);
 
-
-
-                    $("#prefix_name").val(data['data']['prefix_name']);
-                    $("#name").val(data['data']['name']);
-                    $("#last_name").val(data['data']['last_name']);
-                    $("#name_bu").val(data['data']['name_bu']);
+                    $("#prefix").val(data['data']['prefix_name']);
+                    $("#firstname").val(data['data']['name']);
+                    $("#lastname").val(data['data']['last_name']);
+                    $("#businessname").val(data['data']['name_bu']);
                     $("#id_card").val(data['data']['id_card']);
                     $("#sola_no").val(data['data']['sola_no']);
-                    $("#email").val(data['data']['phone']);
-                    $("#sola_no").val(data['data']['email']);
+                    $("#email").val(data['data']['email']);
+                    $("#phone").val(data['data']['phone']);
+
+                    $("#e_card_no").val(data['data_address']['card_house_no']);
+                    $("#e_card_moo").val(data['data_address']['card_moo']);
+                    $("#e_card_home_name").val(data['data_address']['card_home_name']);
+                    $("#e_card_soi").val(data['data_address']['card_soi']);
+                    $("#e_card_road").val(data['data_address']['card_road']);
+                    $("#card_changwat").val(data['data_address']['card_changwat']);
+
+
+                    $("#e_card_zipcode").val(data['data_address']['card_zipcode']);
+
 
                     $("#edit_customer").modal();
 
@@ -883,6 +871,35 @@
         });
 
 
+        $("#e_card_changwat").change(function() {
+            let province_id = $(this).val();
+            $.ajax({
+                url: '{{ route('getDistrict') }}',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    province_id: province_id,
+                },
+                success: function(data) {
+                    $("#e_card_amphur").children().remove();
+                    $("#e_card_tambon").children().remove();
+                    $("#e_card_amphur").append(` <option value=""> เลือกอำเภอ </option>`);
+                    $("#e_card_tambon").append(` <option value=""> เลือกตำบล </option>`);
+                    $("#e_card_zipcode").val("");
+                    data.forEach((item) => {
+                        $("#e_card_amphur").append(
+                            `<option value="${item.id}">${item.name_th}</option>`
+                        );
+
+                    });
+                    $("#e_card_amphur").attr('disabled', false);
+                    $("#e_card_tambon").attr('disabled', true);
+                },
+                error: function() {}
+            })
+        });
+
+
         $("#card_amphur").change(function() {
             let district_id = $(this).val();
             $.ajax({
@@ -906,6 +923,30 @@
                 error: function() {}
             })
         });
+
+        $("#e_card_amphur").change(function() {
+            let district_id = $(this).val();
+            $.ajax({
+                url: '{{ route('getTambon') }}',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    district_id: district_id,
+                },
+                success: function(data) {
+                    $("#e_card_tambon").children().remove();
+                    $("#e_card_tambon").append(` <option value=""> เลือกตำบล </option>`);
+                    $("#e_card_zipcode").val("");
+                    data.forEach((item) => {
+                        $("#e_card_tambon").append(
+                            `<option value="${item.id}">${item.name_th}</option>`
+                        );
+                    });
+                    $("#e_card_tambon").attr('disabled', false);
+                },
+                error: function() {}
+            })
+        });
         // BEGIN district
 
         $("#card_tambon").change(function() {
@@ -922,6 +963,26 @@
                     // console.log(data);
                     $("#card_zipcode").attr('disabled', false);
                     $("#card_zipcode").val(data.zip_code);
+                },
+                error: function() {}
+            })
+        });
+
+
+        $("#e_card_tambon").change(function() {
+            let tambon_id = $('#e_card_tambon').val();
+            console.log(tambon_id);
+            $.ajax({
+                url: '{{ route('getZipcode') }}',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    tambon_id: tambon_id,
+                },
+                success: function(data) {
+                    // console.log(data);
+                    $("#e_card_zipcode").attr('disabled', false);
+                    $("#e_card_zipcode").val(data.zip_code);
                 },
                 error: function() {}
             })

@@ -46,6 +46,10 @@ Route::get('admin/Blank', function () {
 
   Route::get('admin/view_member_data','Admin\MemberRigisterController@view_member_data')->name('admin/view_member_data');
 
+  Route::post('admin/register_edit','Admin\MemberRigisterController@register_edit')->name('admin/register_edit');
+
+
+
 
 
   Route::get('admin/view_password','Admin\MemberRigisterController@view_password')->name('admin/view_password');

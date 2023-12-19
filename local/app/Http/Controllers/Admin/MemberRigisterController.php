@@ -28,9 +28,23 @@ class MemberRigisterController extends Controller
     ->select('*')
     //->where('business_location_id',$business_location_id)
     ->get();
+
+
+
+    $districts = DB::table('dataset_districts')
+    ->select('*')
+    //->where('business_location_id',$business_location_id)
+    ->get();
+
+
+
+    $amphures = DB::table('dataset_amphures')
+    ->select('*')
+    //->where('business_location_id',$business_location_id)
+    ->get();
     // dd($get_member_data);
 
-    return view('backend/member_regis',compact('province'));
+    return view('backend/member_regis',compact('province','districts','amphures'));
   }
 
   public function MemberRegister_datatable(Request $rs)
@@ -145,7 +159,12 @@ class MemberRigisterController extends Controller
       ->where('id', '=', $rs->id)
       ->first();
 
-    $data = ['status' => 'success', 'data' => $get_customer];
+      $customers_address_card= DB::table('customers_address_card')
+      ->where('customer_id', '=', $rs->id)
+      ->first();
+
+
+    $data = ['status' => 'success', 'data' => $get_customer,'data_address'=>$customers_address_card];
 
 
     return $data;
@@ -186,46 +205,7 @@ class MemberRigisterController extends Controller
     return $data;
   }
 
-  public function edit_position(Request $request)
-  {
 
-
-    $user_action = DB::table('customers')
-    ->select( 'id', 'user_name','name', 'last_name','qualification_id','introduce_id')
-    ->where('id','=',$request->id_customer)
-    ->first();
-    if(empty($user_action)){
-        return redirect('admin/MemberRegister')->withError('ไม่พบผู้ใช้งาน กรุณาทำรายการไหม่');
-    }
-
-    if($user_action->qualification_id == $request->new_position){
-        return redirect('admin/MemberRegister')->withError('สมาชิกเป็น '.$request->new_position.' อยู่แล้วไม่สามารถปรับตำแหน่งได้');
-    }
-
-    try {
-
-        DB::BeginTransaction();
-
-        DB::table('log_up_vl')->insert([
-            'user_name' => $user_action->user_name,'introduce_id' => $user_action->introduce_id,
-            'old_lavel' => $user_action->qualification_id, 'new_lavel' =>$request->new_position,'pv_upgrad'=>0, 'status' => 'success', 'type' => 'jangpv','note'=>'ปรับตำแหน่งโดย Admin'
-        ]);
-
-        DB::table('customers')
-        ->where('user_name', $user_action->user_name)
-        ->update(['qualification_id' => $request->new_position, 'pv_upgrad' => 0]);
-        DB::commit();
-
-        return redirect('admin/MemberRegister')->withSuccess('ปรับตำแหน่งสำเร็จ');
-
-} catch (Exception $e) {
-     DB::rollback();
-     return redirect('admin/MemberRegister')->withError('ผิดพลาดกรุณาทำรายการไหม่อีกครั้ง');
-}
-
-
-
-  }
 
 
 
@@ -312,6 +292,63 @@ class MemberRigisterController extends Controller
 
 
   }
+
+  public function register_edit(Request $request)
+  {
+
+
+     $customer_insert = Customers::find($request->e_customer_id);
+
+
+     $customer_insert->prefix_name = trim($request->prefix);
+     $customer_insert->name = trim($request->firstname);
+     $customer_insert->last_name = trim($request->lastname);
+
+     $customer_insert->name_bu = trim($request->businessname);
+    //  $customer_insert->birth_day = trim($request->birthdate);
+     $customer_insert->id_card = trim($request->id_card);
+     $customer_insert->sola_no = trim($request->sola_no);
+
+    //  $customer_insert->country = trim($request->country);
+    //  $customer_insert->national = trim($request->national);
+     $customer_insert->phone = trim($request->phone);
+     $customer_insert->email = trim($request->email);
+
+     //INSERT CUSTOMER ADDRESS CARD
+     $customers_address_card_insert = CustomersAddressCard::where('customer_id','=',$request->e_customer_id)->first(); // ให้แทน $addressCardId ด้วยตัวแปรที่มีค่าเป็น ID ของที่อยู่ของลูกค้าที่ต้องการอัพเดต
+     $customers_address_card_insert->card_house_no = trim($request->card_no);
+     $customers_address_card_insert->card_moo = trim($request->card_moo);
+     $customers_address_card_insert->card_home_name = trim($request->card_home_name);
+     $customers_address_card_insert->card_soi = trim($request->card_soi);
+     $customers_address_card_insert->card_road = trim($request->card_road);
+     $customers_address_card_insert->card_tambon_id_fk =trim($request->card_tambon);
+     $customers_address_card_insert->card_tambon = '';
+     $customers_address_card_insert->card_district_id_fk =trim($request->card_amphur);
+     $customers_address_card_insert->card_amphur = '';
+     $customers_address_card_insert->card_province_id_fk = trim($request->card_changwat);
+     $customers_address_card_insert->card_changwat ='';
+     $customers_address_card_insert->card_zipcode = trim($request->card_zipcode);
+
+
+     try {
+
+            DB::BeginTransaction();
+            $customer_insert->save();
+            $customers_address_card_insert->save();
+            DB::commit();
+
+        return redirect('admin/MemberRegister')->withSuccess('แก้ไขเรียบร้อย');
+    } catch (Exception $e) {
+        //code
+        DB::rollback();
+        redirect('admin/MemberRegister')->withError('Error' .$e);
+    }
+
+
+  }
+
+
+
 
   public static function gencode_customer()
   {
