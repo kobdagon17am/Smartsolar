@@ -433,6 +433,7 @@
                                                 <th>รายละเอียดค่าไฟฟ้า</th>
                                                 <th class="w-5">ค่าไฟฟ้าเดือนที่แล้ว(กิโลวัตต์)</th>
                                                 <th class="w-5">ค่าไฟฟ้าปัจจุบัน(กิโลวัตต์)</th>
+                                                <th class="w-5">ค่าไฟฟ้าหักลบ(กิโลวัตต์)</th>
                                                 <th class="w-5">ส่วนลด(%)</th>
 
                                                 <th class="text-right" class="w-5">หน่วย/บาท</th>
@@ -452,6 +453,7 @@
                                                 @endif
                                                 <td></td>
                                                 <td></td>
+                                                <td></td>
 
                                                 <td></td>
                                                 <td></td>
@@ -467,6 +469,7 @@
                                                 @endif
 
                                                 <td class="">{{ number_format($bills_data->peak_deman, 6) }}</td>
+                                                <td class="">{{ number_format($bills_data->peak_deman, 6) }}</td>
                                                 <td class="text-right">
                                                     <input type="number" name="peak_deman_discount" style="width: 150px"
                                                         class="form-control" value="{{$bills_data->peak_deman_discount}}">
@@ -481,13 +484,14 @@
                                             <tr>
                                                 <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) On-Peak</td>
                                                 @if ($bills_history_old)
-                                                    <td>{{ number_format($bills_history_old->on_peak_deman_balance, 6) }}
+                                                    <td>{{ number_format($bills_history_old->on_peak, 6) }}
                                                     </td>
                                                 @else
                                                     <td></td>
                                                 @endif
 
                                                 <td class=" ">{{ number_format($bills_data->on_peak, 6) }}</td>
+                                                <td class="">{{ number_format($bills_data->on_peak_balance, 6) }}</td>
                                                 <td class="text-right">
                                                     <input type="number" name="on_peak_discount" style="width: 150px"
                                                         class="form-control" value="{{$bills_data->on_peak_discount}}">
@@ -503,14 +507,15 @@
                                             <tr>
                                                 <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) off-Peak</td>
                                                 @if ($bills_history_old)
-                                                    <td>{{ number_format($bills_history_old->off_peak_total_balance, 6) }}
+                                                    <td>{{ number_format($bills_history_old->off_peak, 6) }}
                                                     </td>
                                                 @else
                                                     <td></td>
                                                 @endif
                                                 <td class=" ">
-                                                    {{ number_format($bills_data->off_peak + $bills_data->off_peak_day_off, 6) }}
+                                                    {{ number_format($bills_data->off_peak, 6) }}
                                                 </td>
+                                                <td class="">{{ number_format($bills_data->off_peak_balance, 6) }}</td>
                                                 <td class="text-right">
                                                     <input type="number" name="off_peak_discount" style="width: 150px"
                                                         class="form-control" value="{{$bills_data->off_peak_discount}}">
@@ -531,8 +536,9 @@
                                                     <td></td>
                                                 @endif
                                                 <td class=" ">
-                                                    {{ number_format($bills_data->on_peak + $bills_data->off_peak + $bills_data->off_peak_day_off, 6) }}
+                                                    {{ number_format($bills_data->on_peak + ($bills_data->off_peak + $bills_data->off_peak_day_off), 6) }}
                                                 </td>
+                                                <td class=""></td>
                                                 <td class="text-right">
                                                     <input type="number" name="ft_discount" style="width: 150px"
                                                         class="form-control" value="{{$bills_data->ft_discount}}">
@@ -581,8 +587,8 @@
                                             <h4 class="">รวมเงินค่าไฟฟ้าทั้งสิ้น (ตัวอักษร): </h4>
                                         </div>
                                         <div class="col-sm-6 col-5 grand-total-amount">
-                                            <input type="taxt" class="form-control" name="total_taxt"
-                                                placeholder="รวมเงินค่าไฟฟ้าทั้งสิ้น (ตัวอักษร)">
+                                            <input type="taxt" class="form-control" name="total_price_text"
+                                                placeholder="รวมเงินค่าไฟฟ้าทั้งสิ้น (ตัวอักษร)" value="{{$bills_data->total_price_text}}">
                                         </div>
 
                                         <div class="col-sm-6 col-7 grand-total-title">
@@ -635,10 +641,19 @@
                                     ช่วงเวลา Off-Peak (บาท/kWh) = {{$bills_data->off_peak_per_unit}}<br>
                                     <b> {{$bills_data->ft_text}}</b><br>
                                     Ft (บาท/kWh.) = {{$bills_data->ft_per_unit}} <br>
-                                    <b>อัตราค่าไฟฟ้าของ กิจการร่วมค้า สมาร์ท เพาเวอร์ แพลนท์</b><br>
-                                    ช่วงเวลา On-Peak (บาท/kWh) = {{$bills_data->on_peak_per_unit}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->on_peak_discount}}% จาก กฟภ.)<br>
-                                    ช่วงเวลา Off-Peak (บาท/kWh) = {{$bills_data->off_peak_per_unit}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->off_peak_discount}}% จาก กฟภ.)<br>
-                                    Ft (บาท/kWh.) = {{$bills_data->ft_per_unit}} (ส่วนลดอัตราค่าไฟ {{$bills_data->ft_discount}}% จาก กฟภ.)<br>
+
+                                @if ($bills_data->bill_type == 'STC')
+                                    <b>อัตราค่าไฟฟ้าของ กิจการร่วมค้า สมาร์ท ไทคอน</b><br>
+                                @endif
+                                @if ($bills_data->bill_type == 'SPP')
+                                <b>อัตราค่าไฟฟ้าของ กิจการร่วมค้า สมาร์ท เพาเวอร์ แพลนท์</b><br>
+                                @endif
+
+
+
+                                    ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($bills_data->on_peak_per_unit*($bills_data->on_peak_discount/100), 6)}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->on_peak_discount}}% จาก กฟภ.)<br>
+                                    ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($bills_data->off_peak_per_unit*($bills_data->off_peak_discount/100), 6)}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->off_peak_discount}}% จาก กฟภ.)<br>
+                                    Ft (บาท/kWh.) = {{number_format($bills_data->ft_per_unit*($bills_data->ft_discount/100), 6)}} (ส่วนลดอัตราค่าไฟ {{$bills_data->ft_discount}}% จาก กฟภ.)<br>
                                     <b>ผลประหยัดที่ได้ ในเดือน {{$m_text}}</b><br>
                                     {{number_format($bills_data->discout_price_total,2)}} <br>
 

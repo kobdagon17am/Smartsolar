@@ -84,12 +84,6 @@ Route::get('admin/Blank', function () {
 
 
 
-
-
-
-
-
-
   // Route::get('admin/MemberDocument', function () {
   //   return view('backend.member_doc');
   // })->name('admin/MemberDocument');
@@ -152,6 +146,10 @@ Route::get('admin/Blank', function () {
   Route::get('admin/view_admin_data','Admin\AdminDataController@view_admin_data')->name('admin/view_admin_data');
   Route::post('admin/edit_admin_data','Admin\AdminDataController@edit_admin_data')->name('admin/edit_admin_data');
 
+
+ Route::get('admin/solaset','Admin\Dataset_solaController@index')->name('admin/solaset');
+   Route::get('admin/view_sola','Admin\Dataset_solaController@view_sola')->name('admin/view_sola');
+  Route::post('admin/edit_sola','Admin\Dataset_solaController@edit_sola')->name('admin/edit_sola');
 
 
 //   // Route::get('admin/Category', function () {

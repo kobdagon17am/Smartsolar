@@ -383,10 +383,10 @@ class BillController extends Controller
 
             if($bills_history_old){
                 $on_peak_deman_balance = $rs->on_peak -  $bills_history_old->on_peak;
-                $off_peak_total = $rs->off_peak+$rs->off_peak_day_off;
+                $off_peak_total = ($bills_history_old->off_peak-$rs->off_peak)+$rs->off_peak_day_off;
 
 
-                $off_peak_total_balance = $off_peak_total -  $bills_history_old->off_peak_total_balance;
+                $off_peak_total_balance = $rs->off_peak - $bills_history_old->off_peak;
 
                 $dataPrepare_bills_history = [
                     'customers_id_fk' =>  $rs->customers_id_fk,
@@ -400,8 +400,8 @@ class BillController extends Controller
                     'off_peak_day_off' =>$rs->off_peak_day_off,
                     'off_peak_total' =>$off_peak_total,
                     'off_peak_total_old' =>$bills_history_old->off_peak_total,
-                    'off_peak_total_balance' =>$off_peak_total,
-                    'ft' =>$rs->on_peak+$off_peak_total,
+                    'off_peak_total_balance' =>$off_peak_total_balance,
+                    'ft' =>$on_peak_deman_balance+$off_peak_total_balance,
                     'date_start' => $rs->date_start,
                     'date_end' => $rs->date_end,
                     'm' =>$rs->m,
@@ -411,23 +411,24 @@ class BillController extends Controller
 
 
             }else{
+                $on_peak_deman_balance = $rs->on_peak;
+                $off_peak_total_balance = $rs->off_peak;
 
-                $off_peak_total = $rs->off_peak+$rs->off_peak_day_off;
+                $off_peak_total =$on_peak_deman_balance+$off_peak_total_balance;
                 $dataPrepare_bills_history = [
                     'customers_id_fk' =>  $rs->customers_id_fk,
                     'customers_user_name' => $rs->customers_user_name,
                     'code_order' =>  $rs->code_order,
                     'peak_deman' =>$rs->peak_deman,
-
                     'on_peak' =>  $rs->on_peak,
                     'on_peak_deman_old' =>0,
-                    'on_peak_deman_balance' =>$rs->on_peak,
+                    'on_peak_deman_balance' =>$on_peak_deman_balance,
                     'off_peak' =>$rs->off_peak,
                     'off_peak_day_off' =>$rs->off_peak_day_off,
                     'off_peak_total' =>$off_peak_total,
                     'off_peak_total_old' =>0,
-                    'off_peak_total_balance' =>$off_peak_total,
-                    'ft' =>$rs->on_peak+$off_peak_total,
+                    'off_peak_total_balance' => $off_peak_total_balance,
+                    'ft' =>$on_peak_deman_balance + $off_peak_total_balance,
                     'date_start' =>  $rs->date_start,
                     'date_end' => $rs->date_end,
                     'm' =>$rs->m,
@@ -456,10 +457,13 @@ class BillController extends Controller
         ->where('code','=',4)
         ->first();
 
-        $peak_deman_total = $rs->peak_deman*$peak_deman_unit->unit;
-        $on_peak_total =$rs->on_peak*$on_peak_unit->unit;
-        $off_peak_total = ($rs->off_peak+$rs->off_peak_day_off)*$off_peak_unit->unit;
-        $ft_total = ($rs->off_peak+($rs->off_peak+$rs->off_peak_day_off))*$on_peak_unit->unit;
+        $peak_deman_total = $rs->peak_deman * $peak_deman_unit->unit;
+
+        $on_peak_total =$on_peak_deman_balance * $on_peak_unit->unit;
+
+
+        $off_peak_total = ($off_peak_total_balance + $rs->off_peak_day_off)*$off_peak_unit->unit;
+        $ft_total = ($on_peak_deman_balance +($off_peak_total_balance +$rs->off_peak_day_off))*$ft_unit->unit;
         $sum_price = $peak_deman_total+$on_peak_total+ $ft_total;
         $tax_total = $sum_price*7/100;
         $dataPrepare = [
@@ -477,6 +481,8 @@ class BillController extends Controller
             'peak_deman_total' =>$peak_deman_total,
 
             'on_peak' =>$rs->on_peak,
+            'on_peak_balance' =>$on_peak_deman_balance,
+
             'on_peak_per_unit' =>$on_peak_unit->unit,
             'on_peak_discount' =>0,
             'on_peak_total' =>$on_peak_total,
@@ -486,10 +492,12 @@ class BillController extends Controller
             'off_peak_per_unit' =>$off_peak_unit->unit,
             'off_peak_discount' =>0,
             'off_peak_total' =>$off_peak_total,
+            'off_peak_balance' =>$off_peak_total_balance,
 
-            'ft' =>$rs->off_peak+($rs->off_peak+$rs->off_peak_day_off),
+            'ft' =>$on_peak_deman_balance +($off_peak_total_balance +$rs->off_peak_day_off),
             'ft_per_unit' =>$ft_unit->unit,
             'ft_discount' =>0,
+            'ft_text' =>$ft_unit->text,
             'ft_total' =>$ft_total,
             'sum_price'=> $sum_price,
             'tax_total'=>  $tax_total,
@@ -561,11 +569,13 @@ class BillController extends Controller
             ->first();
 
             if($bills_history_old){
+
                 $on_peak_deman_balance = $rs->on_peak -  $bills_history_old->on_peak;
-                $off_peak_total = $rs->off_peak+$rs->off_peak_day_off;
+                $off_peak_total = ($bills_history_old->off_peak-$rs->off_peak)+$rs->off_peak_day_off;
 
 
-                $off_peak_total_balance = $off_peak_total -  $bills_history_old->off_peak_total_balance;
+                $off_peak_total_balance = $rs->off_peak - $bills_history_old->off_peak;
+
 
                 $dataPrepare_bills_history = [
                     'customers_id_fk' =>  $rs->customers_id_fk,
@@ -579,38 +589,39 @@ class BillController extends Controller
                     'off_peak_day_off' =>$rs->off_peak_day_off,
                     'off_peak_total' =>$off_peak_total,
                     'off_peak_total_old' =>$bills_history_old->off_peak_total,
-                    'off_peak_total_balance' =>$off_peak_total,
-                    'ft' =>$rs->on_peak+$off_peak_total,
+                    'off_peak_total_balance' =>$off_peak_total_balance,
+                    'ft' =>$on_peak_deman_balance+$off_peak_total_balance,
                     'date_start' => $rs->date_start,
                     'date_end' => $rs->date_end,
 
-
                 ];
-
 
             }else{
 
-                $off_peak_total = $rs->off_peak+$rs->off_peak_day_off;
+                $on_peak_deman_balance = $rs->on_peak;
+                $off_peak_total_balance = $rs->off_peak;
+
+                $off_peak_total =$on_peak_deman_balance+$off_peak_total_balance;
                 $dataPrepare_bills_history = [
                     'customers_id_fk' =>  $rs->customers_id_fk,
                     'customers_user_name' => $rs->customers_user_name,
                     'code_order' =>  $rs->code_order,
                     'peak_deman' =>$rs->peak_deman,
-
                     'on_peak' =>  $rs->on_peak,
                     'on_peak_deman_old' =>0,
-                    'on_peak_deman_balance' =>$rs->on_peak,
+                    'on_peak_deman_balance' =>$on_peak_deman_balance,
                     'off_peak' =>$rs->off_peak,
                     'off_peak_day_off' =>$rs->off_peak_day_off,
                     'off_peak_total' =>$off_peak_total,
                     'off_peak_total_old' =>0,
-                    'off_peak_total_balance' =>$off_peak_total,
-                    'ft' =>$rs->on_peak+$off_peak_total,
+                    'off_peak_total_balance' => $off_peak_total_balance,
+                    'ft' =>$on_peak_deman_balance + $off_peak_total_balance,
                     'date_start' =>  $rs->date_start,
                     'date_end' => $rs->date_end,
 
 
                 ];
+
 
 
             }
@@ -631,10 +642,13 @@ class BillController extends Controller
         ->where('code','=',4)
         ->first();
 
-        $peak_deman_total = $rs->peak_deman*$peak_deman_unit->unit;
-        $on_peak_total =$rs->on_peak*$on_peak_unit->unit;
-        $off_peak_total = ($rs->off_peak+$rs->off_peak_day_off)*$off_peak_unit->unit;
-        $ft_total = ($rs->off_peak+($rs->off_peak+$rs->off_peak_day_off))*$on_peak_unit->unit;
+        $peak_deman_total = $rs->peak_deman * $peak_deman_unit->unit;
+
+        $on_peak_total =$on_peak_deman_balance * $on_peak_unit->unit;
+
+
+        $off_peak_total = ($off_peak_total_balance + $rs->off_peak_day_off)*$off_peak_unit->unit;
+        $ft_total = ($on_peak_deman_balance +($off_peak_total_balance +$rs->off_peak_day_off))*$ft_unit->unit;
         $sum_price = $peak_deman_total+$on_peak_total+ $ft_total;
         $tax_total = $sum_price*7/100;
         $dataPrepare = [
@@ -642,7 +656,6 @@ class BillController extends Controller
             'date_end' => $rs->date_end,
             'date_read' =>  $rs->date_read,
             'date_expri_pay' =>  $rs->date_expri_pay,
-
             'order_status_id_fk' =>$rs->status,
 
             'peak_deman' =>$rs->peak_deman,
@@ -651,6 +664,8 @@ class BillController extends Controller
             'peak_deman_total' =>$peak_deman_total,
 
             'on_peak' =>$rs->on_peak,
+            'on_peak_balance' =>$on_peak_deman_balance,
+
             'on_peak_per_unit' =>$on_peak_unit->unit,
             'on_peak_discount' =>0,
             'on_peak_total' =>$on_peak_total,
@@ -660,10 +675,12 @@ class BillController extends Controller
             'off_peak_per_unit' =>$off_peak_unit->unit,
             'off_peak_discount' =>0,
             'off_peak_total' =>$off_peak_total,
+            'off_peak_balance' =>$off_peak_total_balance,
 
-            'ft' =>$rs->off_peak+($rs->off_peak+$rs->off_peak_day_off),
+            'ft' =>$on_peak_deman_balance +($off_peak_total_balance +$rs->off_peak_day_off),
             'ft_per_unit' =>$ft_unit->unit,
             'ft_discount' =>0,
+            'ft_text' =>$ft_unit->ft_text,
             'ft_total' =>$ft_total,
             'sum_price'=> $sum_price,
             'tax_total'=>  $tax_total,
@@ -671,6 +688,7 @@ class BillController extends Controller
 
 
         ];
+
 
 
         try {
@@ -719,38 +737,44 @@ class BillController extends Controller
             ->where('code_order','=',$rs->code_order)
             ->first();
 
-
+            $peak_deman_total_old = $bill_data->peak_deman * $bill_data->peak_deman_per_unit;
 
             if($rs->peak_deman_discount > 0){
-                $peak_deman_total =$bill_data->peak_deman_total-($bill_data->peak_deman_total*($rs->peak_deman_discount/100));
-                $discout_price_peak =$bill_data->peak_deman_total-($bill_data->peak_deman_total*($rs->peak_deman_discount/100));
+                $peak_deman_total =$peak_deman_total_old-($peak_deman_total_old*($rs->peak_deman_discount/100));
+                $discout_price_peak = $peak_deman_total_old*($rs->peak_deman_discount/100);
             }else{
-                $peak_deman_total =$bill_data->peak_deman_total;
+                $peak_deman_total = $peak_deman_total_old;
                 $discout_price_peak = 0;
             }
 
+            $on_peak_total_old =$bill_data->on_peak_balance * $bill_data->on_peak_per_unit;
+
             if($rs->on_peak_discount > 0){
-                $on_peak_total =$bill_data->on_peak_total-($bill_data->on_peak_total*($rs->on_peak_discount/100));
-                $discout_price_on =$bill_data->on_peak_total-($bill_data->on_peak_total*($rs->on_peak_discount/100));
+                $on_peak_total =$on_peak_total_old -($on_peak_total_old *($rs->on_peak_discount/100));
+                $discout_price_on = $on_peak_total_old *($rs->on_peak_discount/100);
             }else{
-                $on_peak_total =$bill_data->on_peak_total;
+                $on_peak_total = $on_peak_total_old;
                 $discout_price_on = 0;
             }
 
+            $of_peak_total_old =$bill_data->off_peak_balance * $bill_data->off_peak_per_unit;
+
             if($rs->off_peak_discount > 0){
-                $off_peak_total =$bill_data->off_peak_total-($bill_data->off_peak_total*($rs->off_peak_discount/100));
-                $discout_price_of =$bill_data->off_peak_total-($bill_data->off_peak_total*($rs->off_peak_discount/100));
+                $off_peak_total =$of_peak_total_old-($of_peak_total_old*($rs->off_peak_discount/100));
+                $discout_price_of =$of_peak_total_old*($rs->off_peak_discount/100);
             }else{
-                $off_peak_total =$bill_data->off_peak_total;
+                $off_peak_total =$of_peak_total_old;
                 $discout_price_of = 0;
             }
 
-            if($rs->ft_discount > 0){
-                $ft_total =$bill_data->ft_total-($bill_data->ft_total*($rs->ft_discount/100));
+            $ft_total_old =  ($bill_data->on_peak_balance +($bill_data->off_peak_balance +$bill_data->off_peak_day_off))*$bill_data->ft_per_unit;
 
-                $discout_price_ft = $bill_data->ft_total-($bill_data->ft_total*($rs->ft_discount/100));
+            if($rs->ft_discount > 0){
+                $ft_total =$ft_total_old-($ft_total_old*($rs->ft_discount/100));
+
+                $discout_price_ft = $ft_total_old*($rs->ft_discount/100);
             }else{
-                $ft_total =$bill_data->ft_total;
+                $ft_total =$ft_total_old;
                 $discout_price_ft = 0;
             }
 
@@ -780,6 +804,7 @@ class BillController extends Controller
             'tax_total'=>  $tax_total,
             'total_price'=> $total_price,
 
+            'total_price_text' =>$rs->total_price_text,
         ];
 
 

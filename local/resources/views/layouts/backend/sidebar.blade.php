@@ -42,7 +42,7 @@
                         <i class="las la-angle-right sidemenu-right-icon"></i>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled" id="a4" data-parent="#accordionExample">
+                <ul class="collapse submenu list-unstyled" id="a7" data-parent="#accordionExample">
                     <li>
                         <a href="{{ route('admin/bill/create') }}"> สร้างบิล </a>
                     </li>
@@ -59,16 +59,16 @@
                         <span> การตั้งค่าระบบทั่วไป </span>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled" id="a6" data-parent="#accordionExample">
+                <ul class="collapse submenu list-unstyled" id="a8" data-parent="#accordionExample">
 
 
                     <li>
                         <a href="{{ route('admin/AdminData') }}"> กำหนดสิทธิ์ผู้ใช้งาน </a>
                     </li>
 
-                    {{-- <li>
-                        <a href="#"> เปลี่ยนแปลงรหัสผ่าน </a>
-                    </li> --}}
+                    <li>
+                        <a href="{{ route('admin/solaset') }}""> ตังค่าไฟฟ้า </a>
+                    </li>
                 </ul>
             </li>
         </ul>
