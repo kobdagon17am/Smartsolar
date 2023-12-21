@@ -80,8 +80,16 @@ class BillController extends Controller
 
         ->addColumn('action', function ($row) {
 
-           $html = '<a href="#!" onclick="modal_bill_delete(' . $row->id . ',\'' .$row->code_order. '\')" class="p-2">
-           <i class="las la-trash font-25 text-danger"></i></a>';
+            $html = '<i class="lab la-whmcs font-25 text-warning" id="btnGroupDrop1" data-toggle="dropdown" aria-expanded="false"></i>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="will-change: transform;">
+            <a class="dropdown-item" href="'.route('admin/bill/bill_create_detail',['code'=>$row->code_order]).'"  >ดูรายละเอียด</a>
+
+            <a class="dropdown-item" href="#!"  onclick="modal_bill_delete(' . $row->id . ',\'' .$row->code_order. '\')">ลบรายการ</a>
+          </div>'
+          ;
+
+
+
           return $html; // รวมค่า $html และ $html1 ด้วยเครื่องหมาย .
 
         })
@@ -156,8 +164,9 @@ class BillController extends Controller
         ->addColumn('action', function ($row) {
            $name = $row->name_bu;
 
+
            $html = '<a href="#!" onclick="modal_bill_create(' . $row->id . ',\'' . $name . '\')" class="p-2">
-           <i class="las la-plus font-25 text-success"></i></a>';
+           <i class="las la-plus font-25 text-success"></i></a> ';
           return $html; // รวมค่า $html และ $html1 ด้วยเครื่องหมาย .
 
         })

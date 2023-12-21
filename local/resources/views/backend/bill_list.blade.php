@@ -21,7 +21,7 @@
         <div class="statbox widget box box-shadow mb-4 mt-4">
 
             <div class="row mb-4 ml-2">
-                <div class="col-lg-1 mt-2">
+                <div class="col-lg-2 mt-2">
                     <label>เดือน</label>
 
 
@@ -44,7 +44,7 @@
                 </div>
 
 
-                <div class="col-lg-1 mt-2">
+                <div class="col-lg-2 mt-2">
                     <label>ปี</label>
                     <input type="taxt" class="form-control" name="y" placeholder=""
                         value="{{ date('Y') }}">
