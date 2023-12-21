@@ -173,7 +173,7 @@
 <table style="width: 100%;border: 0px solid black;padding: 0px;margin: 0px" border="0">
     <thead class="">
         <tr>
-            <td style="background-color:#a3a3a3;padding-left: 2px;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">รายละเอียดค่าไฟฟ้า</b></td>
+            <td style="background-color:#a3a3a3;padding-left: 2px; width: 30%;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">รายละเอียดค่าไฟฟ้า</b></td>
             <td style="background-color:#a3a3a3;padding-left: 2px;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">เลขอ่านครั้งก่อน(กิโลวัตต์)</b></td>
             <td style="background-color:#a3a3a3;padding-left: 2px;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">เลขอ่านปัจจุบัน(กิโลวัตต์)</b></td>
             <td style="background-color:#a3a3a3;padding-left: 2px;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">ค่าไฟฟ้า(กิโลวัตต์)</b></td>
@@ -186,8 +186,8 @@
         <tr style="">
             <td>ค่าไฟฟ้าเดือนที่แล้ว</td>
             @if (@$data['bills_history_old'])
-                <td>วันที่
-                    :{{ date('d/m/Y', strtotime(@$data['bills_history_old']->date_start)) }}-{{ date('d/m/Y', strtotime(@$data['bills_history_old']->date_end)) }}
+                <td>
+                    {{ date('d/m/Y', strtotime(@$data['bills_history_old']->date_start)) }}-{{ date('d/m/Y', strtotime(@$data['bills_history_old']->date_end)) }}
                 </td>
             @else
                 <td>ไม่พบข้อมูลบิลเดือนก่อนหน้า</td>
@@ -326,17 +326,18 @@
         </tr>
     </thead>
 </table>
-
+<br>
+<br>
 {{-- <p style="padding: 0px;margin: 0px;">*หากมีปัญหาเกี่ยวกับสินค้ากรุณาติตต่อบริษัทที่ท่านสั่งซื้อสินคำโดยตรงและหากหัสดุดีกลับกรุณานำส่ง ตามชื่อผู้ฝากส่งรายการสินค้า</p> --}}
 
 <table style="width: 100%;border: 0px;" border="0">
     <thead>
         <tr>
-            <th align="left">
+            <th align="left" style="width: 50%">
 
                 <p>
                     <b>เกี่ยวกับบิลค่าไฟฟ้า</b><br>
-                    อ้างอิงอัตราค่าไฟฟ้าดังต่อไปนี้ อัตราตามช่วงเวลาของการใช้ (TOU) สำหรับแรงดัน 22-33 kv
+                    อ้างอิงอัตราค่าไฟฟ้าดังต่อไปนี้ อัตราตามช่วงเวลาของการใช้ (TOU)<br> สำหรับแรงดัน 22-33 kv
                     สำหรับแรงดัน 22-33 kv <br>
                     <b>กำหนดช่วงเวลา On-Peak</b><br>
                     วันจันทร์-วันศุกร์ และวันพืชมงคล เวลา 09.00 น. จนถึง 22.00 น.<br>

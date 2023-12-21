@@ -85,12 +85,11 @@ class BillController extends Controller
 
             $html = '<i class="lab la-whmcs font-25 text-warning" id="btnGroupDrop1" data-toggle="dropdown" aria-expanded="false"></i>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="will-change: transform;">
-            onclick="print_pdf({{$bills_data->id}})"
+
             <a class="dropdown-item" href="'.route('admin/bill/bill_create_detail',['code'=>$row->code_order]).'"  >ดูรายละเอียด</a>
             <a class="dropdown-item" href="#!" onclick="print_pdf('.$row->id.')" >PDF</a>
             <a class="dropdown-item" href="#!"  onclick="print_pdf(' . $row->id . ',\'' .$row->code_order. '\')">ลบรายการ</a>
-          </div>'
-          ;
+          </div>';
 
           return $html; // รวมค่า $html และ $html1 ด้วยเครื่องหมาย .
 
