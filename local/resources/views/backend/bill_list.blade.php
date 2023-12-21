@@ -291,7 +291,42 @@
 
 
         }
+
+
+
     </script>
+
+
+<script>
+
+    function print_pdf(bill_id){
+            Swal.fire({
+                            title: 'รอสักครู่...',
+                            html: 'ระบบกำลังเตรียมไฟล์ PDF...',
+                            didOpen: () => {
+                                Swal.showLoading()
+                            },
+                        }),
+
+        $.ajax({
+                        url: "{{route('admin/print_bill')}}",
+                        type: 'get',
+                        data: {
+                            '_token': '{{ csrf_token()}}',
+                            'bill_id': bill_id,
+
+                        },
+                        success: function(data){
+                            //console.log(data['url']);
+                            Swal.close();
+                             const path = data['url'];
+                             window.open(path,"_blank");
+
+
+                        }
+                    });
+    }
+</script>
 
 
 @endsection
