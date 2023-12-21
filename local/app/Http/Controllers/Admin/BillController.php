@@ -154,7 +154,7 @@ class BillController extends Controller
         })
 
         ->addColumn('action', function ($row) {
-           $name = $row->name.' '.$row->last_name;
+           $name = $row->name_bu;
 
            $html = '<a href="#!" onclick="modal_bill_create(' . $row->id . ',\'' . $name . '\')" class="p-2">
            <i class="las la-plus font-25 text-success"></i></a>';
@@ -383,10 +383,9 @@ class BillController extends Controller
 
             if($bills_history_old){
                 $on_peak_deman_balance = $rs->on_peak -  $bills_history_old->on_peak;
-                $off_peak_total = ($bills_history_old->off_peak-$rs->off_peak)+$rs->off_peak_day_off;
 
-
-                $off_peak_total_balance = $rs->off_peak - $bills_history_old->off_peak;
+                $off_peak_total = $rs->off_peak+$rs->off_peak_day_off;
+                $off_peak_total_balance = $off_peak_total - $bills_history_old->off_peak_total;
 
                 $dataPrepare_bills_history = [
                     'customers_id_fk' =>  $rs->customers_id_fk,
@@ -412,9 +411,9 @@ class BillController extends Controller
 
             }else{
                 $on_peak_deman_balance = $rs->on_peak;
-                $off_peak_total_balance = $rs->off_peak;
+                $off_peak_total_balance = $rs->off_peak + $rs->off_peak_day_off;
 
-                $off_peak_total =$on_peak_deman_balance+$off_peak_total_balance;
+                $off_peak_total = $off_peak_total_balance;
                 $dataPrepare_bills_history = [
                     'customers_id_fk' =>  $rs->customers_id_fk,
                     'customers_user_name' => $rs->customers_user_name,
@@ -462,9 +461,9 @@ class BillController extends Controller
         $on_peak_total =$on_peak_deman_balance * $on_peak_unit->unit;
 
 
-        $off_peak_total = ($off_peak_total_balance + $rs->off_peak_day_off)*$off_peak_unit->unit;
-        $ft_total = ($on_peak_deman_balance +($off_peak_total_balance +$rs->off_peak_day_off))*$ft_unit->unit;
-        $sum_price = $peak_deman_total+$on_peak_total+ $ft_total;
+        $off_peak_total = $off_peak_total_balance * $off_peak_unit->unit;
+        $ft_total = ($on_peak_deman_balance + $off_peak_total_balance)*$ft_unit->unit;
+        $sum_price = $peak_deman_total+$on_peak_total+$off_peak_total+$ft_total;
         $tax_total = $sum_price*7/100;
         $dataPrepare = [
             'date_start' =>  $rs->date_start,
@@ -494,7 +493,7 @@ class BillController extends Controller
             'off_peak_total' =>$off_peak_total,
             'off_peak_balance' =>$off_peak_total_balance,
 
-            'ft' =>$on_peak_deman_balance +($off_peak_total_balance +$rs->off_peak_day_off),
+            'ft' =>$on_peak_deman_balance + $off_peak_total_balance,
             'ft_per_unit' =>$ft_unit->unit,
             'ft_discount' =>0,
             'ft_text' =>$ft_unit->text,
@@ -571,10 +570,9 @@ class BillController extends Controller
             if($bills_history_old){
 
                 $on_peak_deman_balance = $rs->on_peak -  $bills_history_old->on_peak;
-                $off_peak_total = ($bills_history_old->off_peak-$rs->off_peak)+$rs->off_peak_day_off;
 
-
-                $off_peak_total_balance = $rs->off_peak - $bills_history_old->off_peak;
+                $off_peak_total = $rs->off_peak+$rs->off_peak_day_off;
+                $off_peak_total_balance = $off_peak_total - $bills_history_old->off_peak_total;
 
 
                 $dataPrepare_bills_history = [
@@ -599,9 +597,9 @@ class BillController extends Controller
             }else{
 
                 $on_peak_deman_balance = $rs->on_peak;
-                $off_peak_total_balance = $rs->off_peak;
+                $off_peak_total_balance = $rs->off_peak+$rs->off_peak_day_off;
 
-                $off_peak_total =$on_peak_deman_balance+$off_peak_total_balance;
+                $off_peak_total = $off_peak_total_balance;
                 $dataPrepare_bills_history = [
                     'customers_id_fk' =>  $rs->customers_id_fk,
                     'customers_user_name' => $rs->customers_user_name,
@@ -647,9 +645,9 @@ class BillController extends Controller
         $on_peak_total =$on_peak_deman_balance * $on_peak_unit->unit;
 
 
-        $off_peak_total = ($off_peak_total_balance + $rs->off_peak_day_off)*$off_peak_unit->unit;
-        $ft_total = ($on_peak_deman_balance +($off_peak_total_balance +$rs->off_peak_day_off))*$ft_unit->unit;
-        $sum_price = $peak_deman_total+$on_peak_total+ $ft_total;
+        $off_peak_total = $off_peak_total_balance * $off_peak_unit->unit;
+        $ft_total = ($on_peak_deman_balance + $off_peak_total_balance) *$ft_unit->unit;
+        $sum_price = $peak_deman_total+$on_peak_total+ $ft_total + $off_peak_total;
         $tax_total = $sum_price*7/100;
         $dataPrepare = [
             'date_start' =>  $rs->date_start,
@@ -677,10 +675,10 @@ class BillController extends Controller
             'off_peak_total' =>$off_peak_total,
             'off_peak_balance' =>$off_peak_total_balance,
 
-            'ft' =>$on_peak_deman_balance +($off_peak_total_balance +$rs->off_peak_day_off),
+            'ft' =>$on_peak_deman_balance + $off_peak_total_balance,
             'ft_per_unit' =>$ft_unit->unit,
             'ft_discount' =>0,
-            'ft_text' =>$ft_unit->ft_text,
+            'ft_text' =>$ft_unit->text,
             'ft_total' =>$ft_total,
             'sum_price'=> $sum_price,
             'tax_total'=>  $tax_total,
@@ -747,7 +745,7 @@ class BillController extends Controller
                 $discout_price_peak = 0;
             }
 
-            $on_peak_total_old =$bill_data->on_peak_balance * $bill_data->on_peak_per_unit;
+            $on_peak_total_old = $bill_data->on_peak_balance * $bill_data->on_peak_per_unit;
 
             if($rs->on_peak_discount > 0){
                 $on_peak_total =$on_peak_total_old -($on_peak_total_old *($rs->on_peak_discount/100));
@@ -757,7 +755,7 @@ class BillController extends Controller
                 $discout_price_on = 0;
             }
 
-            $of_peak_total_old =$bill_data->off_peak_balance * $bill_data->off_peak_per_unit;
+            $of_peak_total_old = $bill_data->off_peak_balance * $bill_data->off_peak_per_unit;
 
             if($rs->off_peak_discount > 0){
                 $off_peak_total =$of_peak_total_old-($of_peak_total_old*($rs->off_peak_discount/100));
@@ -767,7 +765,7 @@ class BillController extends Controller
                 $discout_price_of = 0;
             }
 
-            $ft_total_old =  ($bill_data->on_peak_balance +($bill_data->off_peak_balance +$bill_data->off_peak_day_off))*$bill_data->ft_per_unit;
+            $ft_total_old =  ($bill_data->on_peak_balance + $bill_data->off_peak_balance )*$bill_data->ft_per_unit;
 
             if($rs->ft_discount > 0){
                 $ft_total =$ft_total_old-($ft_total_old*($rs->ft_discount/100));
@@ -781,8 +779,11 @@ class BillController extends Controller
             $discout_price_total = $discout_price_peak+$discout_price_on+ $discout_price_of;
 
             $sum_price =$peak_deman_total+ $on_peak_total+$off_peak_total+$ft_total;
+            // dd($peak_deman_total,$on_peak_total,$off_peak_total,$ft_total,$sum_price);
             $tax_total =  $sum_price*7/100;
             $total_price =  $sum_price+$tax_total;
+
+
 
         $dataPrepare = [
 
@@ -803,10 +804,9 @@ class BillController extends Controller
             'sum_price'=> $sum_price,
             'tax_total'=>  $tax_total,
             'total_price'=> $total_price,
-
+            'total_price'=> $total_price,
             'total_price_text' =>$rs->total_price_text,
         ];
-
 
         try {
             DB::BeginTransaction();
@@ -834,12 +834,54 @@ class BillController extends Controller
     }
 
 
+    public static function convertNumberToThaiWords($number)
+    {
+        //App\Http\Controllers\Admin\BillController::convertNumberToThaiWords();
+        $thaiNumbers = [
+            0 => 'ศูนย์',
+            1 => 'หนึ่ง',
+            2 => 'สอง',
+            3 => 'สาม',
+            4 => 'สี่',
+            5 => 'ห้า',
+            6 => 'หก',
+            7 => 'เจ็ด',
+            8 => 'แปด',
+            9 => 'เก้า'
+        ];
 
+        $unitPositions = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
 
+        $splitNumber = explode('.', $number);
+        $integerPart = $splitNumber[0];
+        $decimalPart = isset($splitNumber[1]) ? $splitNumber[1] : '00';
 
+        $integerWords = '';
+        $decimalWords = '';
 
+        // แปลงส่วนจำนวนเต็ม
+        for ($i = 0; $i < strlen($integerPart); $i++) {
+            $digit = (int)$integerPart[$i];
+            $position = strlen($integerPart) - $i - 1;
 
+            if ($digit > 0) {
+                $integerWords .= $thaiNumbers[$digit] . $unitPositions[$position];
+            } elseif ($position == 0 && strlen($integerPart) == 1) {
+                $integerWords .= $thaiNumbers[$digit];
+            }
+        }
 
+        // แปลงส่วนทศนิยม
+        if ($decimalPart != '00') {
+            $decimalWords .= $thaiNumbers[(int)$decimalPart[0]] . 'สิบ';
+            $decimalWords .= $thaiNumbers[(int)$decimalPart[1]];
+        }
+
+        // รวมตัวหนังสือทั้งสองส่วน
+        $result = $integerWords . 'บาท' . $decimalWords . 'สตางค์';
+
+        return $result;
+    }
 
 
 

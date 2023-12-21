@@ -461,7 +461,7 @@
 
                                             </tr>
                                             <tr>
-                                                <td>ค่าความต้องการพลีงงานไฟฟ้า Peak Deman</td>
+                                                <td>ค่าความต้องการพลังงานไฟฟ้า Peak Deman</td>
                                                 @if ($bills_history_old)
                                                     <td>{{ number_format($bills_history_old->peak_deman, 6) }}</td>
                                                 @else
@@ -469,7 +469,7 @@
                                                 @endif
 
                                                 <td class="">{{ number_format($bills_data->peak_deman, 6) }}</td>
-                                                <td class="">{{ number_format($bills_data->peak_deman, 6) }}</td>
+                                                <td class=""> </td>
                                                 <td class="text-right">
                                                     <input type="number" name="peak_deman_discount" style="width: 150px"
                                                         class="form-control" value="{{$bills_data->peak_deman_discount}}">
@@ -484,7 +484,7 @@
                                             <tr>
                                                 <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) On-Peak</td>
                                                 @if ($bills_history_old)
-                                                    <td>{{ number_format($bills_history_old->on_peak, 6) }}
+                                                    <td>{{ number_format($bills_history_old->on_peak_deman_balance, 6) }}
                                                     </td>
                                                 @else
                                                     <td></td>
@@ -507,7 +507,7 @@
                                             <tr>
                                                 <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) off-Peak</td>
                                                 @if ($bills_history_old)
-                                                    <td>{{ number_format($bills_history_old->off_peak, 6) }}
+                                                    <td>{{ number_format($bills_history_old->off_peak_total, 6) }}
                                                     </td>
                                                 @else
                                                     <td></td>
@@ -535,7 +535,7 @@
                                                 @else
                                                     <td></td>
                                                 @endif
-                                                <td class=" ">
+                                                <td>
                                                     {{ number_format($bills_data->on_peak + ($bills_data->off_peak + $bills_data->off_peak_day_off), 6) }}
                                                 </td>
                                                 <td class=""></td>
@@ -556,10 +556,10 @@
                         </div>
                         <hr />
                         <div class="row mt-2">
-                            <div class="col-md-5 col-lg-5 col-sm-5 col-12 order-sm-0 order-1">
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-12 order-sm-0 order-1">
 
                             </div>
-                            <div class="col-md-7 col-lg-7 col-sm-7 col-12 order-sm-1 order-0">
+                            <div class="col-md-8 col-lg-8 col-sm-8 col-12 order-sm-1 order-0">
                                 <div class="inv--total-amounts text-sm-right">
                                     <div class="row">
                                         <div class="col-sm-6 col-7">
@@ -583,11 +583,27 @@
                                         <div class="col-sm-6 col-5 grand-total-amount">
                                             <h4 class="">{{ number_format($bills_data->total_price, 2) }}</h4>
                                         </div>
+
+
+                                        <div class="col-sm-6 col-7 grand-total-title">
+                                            <h4 class="">รวมเงินค่าไฟฟ้าทั้งสิ้น (ตัวอักษร) : </h4>
+                                        </div>
+                                        <div class="col-sm-6 col-5 grand-total-amount">
+                                            <?php
+                                                   $text = \App\Http\Controllers\Admin\BillController::convertNumberToThaiWords($bills_data->total_price);
+                                                ?>
+                                            <b class="">{{$text}}</b>
+                                        </div>
+
+
+
                                         <div class="col-sm-6 col-7 grand-total-title">
                                             <h4 class="">รวมเงินค่าไฟฟ้าทั้งสิ้น (ตัวอักษร): </h4>
                                         </div>
                                         <div class="col-sm-6 col-5 grand-total-amount">
-                                            <input type="taxt" class="form-control" name="total_price_text"
+
+
+                                                <input type="taxt" name="total_price_text" class="form-control"
                                                 placeholder="รวมเงินค่าไฟฟ้าทั้งสิ้น (ตัวอักษร)" value="{{$bills_data->total_price_text}}">
                                         </div>
 
@@ -600,7 +616,7 @@
                                                 <option value="1" @if ($order_status_id_fk == 1) selected @endif>จัดเตรียมเอกสาร</option>
                                                 <option value="2" @if ($order_status_id_fk == 2) selected @endif>จัดส่งเอกสาร</option>
                                                 <option value="3" @if ($order_status_id_fk == 3) selected @endif>ชำระเรียบร้อย</option>
-                                                <option value="4" @if ($order_status_id_fk == 4) selected @endif> ยกเลิก(Cancel)</option>
+                                                <option value="4" @if ($order_status_id_fk == 4) selected @endif>ยกเลิก(Cancel)</option>
 
                                             </select>
 
@@ -627,7 +643,7 @@
                                     <b> กำหนดช่วงเวลา Off-Peak</b><br>
                                     วันจันทร์-วันศุกร์ เวลา 22.00 น. จนถึง 09.00 น.<br>
                                     วันเสาร์-วันอาทิตย์ , วันแรงงาน และวันหยุดราชการตามปกติ <br>
-                                    เวลา 00:00 น. -24:00 น.<br>
+                                    เวลา 00:00 น. - 24:00 น.<br>
                                     (ไม่รวมวันหยุดชดเชยและวันพืชมงคล)
 
 
@@ -648,8 +664,6 @@
                                 @if ($bills_data->bill_type == 'SPP')
                                 <b>อัตราค่าไฟฟ้าของ กิจการร่วมค้า สมาร์ท เพาเวอร์ แพลนท์</b><br>
                                 @endif
-
-
 
                                     ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($bills_data->on_peak_per_unit*($bills_data->on_peak_discount/100), 6)}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->on_peak_discount}}% จาก กฟภ.)<br>
                                     ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($bills_data->off_peak_per_unit*($bills_data->off_peak_discount/100), 6)}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->off_peak_discount}}% จาก กฟภ.)<br>
