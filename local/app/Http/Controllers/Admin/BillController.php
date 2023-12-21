@@ -11,6 +11,7 @@ use App\Imports\OrderImport;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Filesystem\Filesystem;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
+
 use DataTables;
 use DB;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,8 @@ class BillController extends Controller
 
     public function index()
     {
+
+
 
         return view('backend/bill_list');
     }
@@ -285,6 +288,7 @@ class BillController extends Controller
             $bills_history_old = DB::table('bills_history')
             ->where('m','=',$his_m)
             ->where('y','=',$his_y)
+            ->where('customers_id_fk','=',$bills_data->customers_id_fk)
             ->first();
 
 
@@ -891,6 +895,71 @@ class BillController extends Controller
 
         return $result;
     }
+
+
+
+
+    public function print_bill(Request $rs)
+    {
+        $file = new Filesystem;
+        $file->cleanDirectory(public_path('pdf/bill'));
+
+        $bill_id = $rs->bill_id;
+
+
+
+        $bills = DB::table('bills')
+        ->select(
+            'bills.*',
+            'dataset_districts.name_th as district',
+            'dataset_provinces.name_th as province',
+            'dataset_amphures.name_th as tambon',
+            'bills.zipcode',
+            'tel',
+        )
+        ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'bills.province_id')
+        ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'bills.district_id')
+        ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'bills.tambon_id')
+        ->where('bills.id',$bill_id)
+        ->first();
+
+
+
+
+        $his_m =  $bills->m-1;
+        $his_y =  $bills->y;
+        if($his_m == 0 ){
+            $his_m = '12';
+            $his_y =  $bills->y - 1;
+        }
+
+
+
+        $bills_history_old = DB::table('bills_history')
+        ->where('m','=',$his_m)
+        ->where('y','=',$his_y)
+        ->where('customers_id_fk','=',$bills->customers_id_fk)
+        ->first();
+
+        // return view('backend/PDF/report_bill_pdf', compact('data'));
+
+        // Create a PDF instance using the PDF facade
+        $data = ['bills_data' => $bills,'bills_history_old'=>$bills_history_old];
+        $pdf = PDF::loadView('backend/PDF/report_bill_pdf', compact('data'));
+
+
+        $pathfile = public_path('pdf/bill/'.$bills->code_order.'.pdf');
+
+
+        $pdf->save($pathfile);
+        $url =  asset('local/public/pdf/bill/'.$bills->code_order.'.pdf');
+
+        $rs = ['url'=>$url];
+         return $rs;
+    }
+
+
+
 
 
 

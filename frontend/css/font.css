@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'THSarabunNew';
+    src: url('../fonts/THSarabunNew.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'THSarabunNew-b';
+    src: url('../fonts/THSarabunNewBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'kanit';
+    src: url('../fonts/Kanit-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'kanit-b';
+    src: url('../fonts/Kanit-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}

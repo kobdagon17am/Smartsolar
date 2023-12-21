@@ -78,6 +78,11 @@ Route::get('admin/Blank', function () {
 
   Route::post('admin/bill/edit_bill_discoute', 'Admin\BillController@edit_bill_discoute')->name('admin/bill/edit_bill_discoute');
 
+  Route::get('admin/print_bill', 'Admin\BillController@print_bill')->name('admin/print_bill');
+
+
+
+
 
 
 

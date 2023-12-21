@@ -38,6 +38,7 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Container\\' => 14,
+            'Psr\\Clock\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
         ),
         'M' => 
@@ -63,6 +64,7 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
         array (
             'Composer\\Semver\\' => 16,
             'Complex\\' => 8,
+            'Carbon\\Doctrine\\' => 16,
             'Carbon\\' => 7,
         ),
     );
@@ -109,6 +111,10 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
+        'Psr\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/clock/src',
+        ),
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
@@ -150,6 +156,10 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
         'Complex\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
+        ),
+        'Carbon\\Doctrine\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/carbonphp/carbon-doctrine-types/src/Carbon/Doctrine',
         ),
         'Carbon\\' => 
         array (

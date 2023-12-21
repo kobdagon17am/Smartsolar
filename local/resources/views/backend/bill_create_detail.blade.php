@@ -536,9 +536,9 @@
                                                     <td></td>
                                                 @endif
                                                 <td>
-                                                    {{ number_format($bills_data->on_peak + ($bills_data->off_peak + $bills_data->off_peak_day_off), 6) }}
+                                                    {{ number_format($bills_data->on_peak_balance + $bills_data->off_peak_balance, 6) }}
                                                 </td>
-                                                <td class=""></td>
+                                                <td class="">{{ number_format($bills_data->on_peak + ($bills_data->off_peak + $bills_data->off_peak_day_off), 6) }}</td>
                                                 <td class="text-right">
                                                     <input type="number" name="ft_discount" style="width: 150px"
                                                         class="form-control" value="{{$bills_data->ft_discount}}">
@@ -624,6 +624,11 @@
                                                 <button type="submit" class="btn  btn-sm btn-primary btn-rounded mt-4" onclick="return confirm('หากบันทึกเป็น จัดส่งเอกสาร  จะไม่สามารถแก้ไขบิลได้ ยืนยัน?')"><i class="las la-redo-alt font-20"></i>
                                                     คำนวน | บันทึก</button>
                                             @endif
+
+
+
+                                            <a href="javascript:void(0);" onclick="print_pdf({{$bills_data->id}})" class="btn  btn-sm btn-warning btn-rounded mt-4"><i class="las la-file-pdf font-20"></i>
+                                                Print </a>
 
                                         </div>
                                     </div>
@@ -713,4 +718,35 @@
     <!-- The following JS library files are loaded to use PDF Options-->
     <script src="{{ asset('backend/plugins/table/datatable/button-ext/pdfmake.min.js') }}"></script>
     <script src="{{ asset('backend/plugins/table/datatable/button-ext/vfs_fonts.js') }}"></script>
+
+    <script>
+
+        function print_pdf(bill_id){
+                Swal.fire({
+                                title: 'รอสักครู่...',
+                                html: 'ระบบกำลังเตรียมไฟล์ PDF...',
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                },
+                            }),
+
+            $.ajax({
+                            url: "{{route('admin/print_bill')}}",
+                            type: 'get',
+                            data: {
+                                '_token': '{{ csrf_token()}}',
+                                'bill_id': bill_id,
+
+                            },
+                            success: function(data){
+                                //console.log(data['url']);
+                                Swal.close();
+                                 const path = data['url'];
+                                 window.open(path,"_blank");
+
+
+                            }
+                        });
+        }
+    </script>
 @endsection
