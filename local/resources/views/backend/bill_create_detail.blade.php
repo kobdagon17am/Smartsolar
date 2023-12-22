@@ -463,12 +463,12 @@
                                             <tr>
                                                 <td>ค่าความต้องการพลังงานไฟฟ้า Peak Deman</td>
                                                 @if ($bills_history_old)
-                                                    <td>{{ number_format($bills_history_old->peak_deman, 6) }}</td>
+                                                    <td>{{ number_format($bills_history_old->peak_deman,3, '.', '') }}</td>
                                                 @else
                                                     <td></td>
                                                 @endif
 
-                                                <td class="">{{ number_format($bills_data->peak_deman, 6) }}</td>
+                                                <td class="">{{ number_format($bills_data->peak_deman,3, '.', '') }}</td>
                                                 <td class=""> </td>
                                                 <td class="text-right">
                                                     <input type="number" name="peak_deman_discount" style="width: 150px"
@@ -484,14 +484,14 @@
                                             <tr>
                                                 <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) On-Peak</td>
                                                 @if ($bills_history_old)
-                                                    <td>{{ number_format($bills_history_old->on_peak_deman_balance, 6) }}
+                                                    <td>{{ number_format($bills_history_old->on_peak_deman_balance,3, '.', '') }}
                                                     </td>
                                                 @else
                                                     <td></td>
                                                 @endif
 
-                                                <td class=" ">{{ number_format($bills_data->on_peak, 6) }}</td>
-                                                <td class="">{{ number_format($bills_data->on_peak_balance, 6) }}</td>
+                                                <td class=" ">{{ number_format($bills_data->on_peak,3, '.', '') }}</td>
+                                                <td class="">{{ number_format($bills_data->on_peak_balance,3, '.', '') }}</td>
                                                 <td class="text-right">
                                                     <input type="number" name="on_peak_discount" style="width: 150px"
                                                         class="form-control" value="{{$bills_data->on_peak_discount}}">
@@ -507,15 +507,15 @@
                                             <tr>
                                                 <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) off-Peak</td>
                                                 @if ($bills_history_old)
-                                                    <td>{{ number_format($bills_history_old->off_peak_total, 6) }}
+                                                    <td>{{ number_format($bills_history_old->off_peak_total,3, '.', '') }}
                                                     </td>
                                                 @else
                                                     <td></td>
                                                 @endif
                                                 <td class=" ">
-                                                    {{ number_format($bills_data->off_peak, 6) }}
+                                                    {{ number_format($bills_data->off_peak,3, '.', '') }}
                                                 </td>
-                                                <td class="">{{ number_format($bills_data->off_peak_balance, 6) }}</td>
+                                                <td class="">{{ number_format($bills_data->off_peak_balance,3, '.', '') }}</td>
                                                 <td class="text-right">
                                                     <input type="number" name="off_peak_discount" style="width: 150px"
                                                         class="form-control" value="{{$bills_data->off_peak_discount}}">
@@ -531,14 +531,14 @@
                                             <tr>
                                                 <td>ค่า FT </td>
                                                 @if ($bills_history_old)
-                                                    <td>{{ number_format($bills_history_old->ft, 6) }}</td>
+                                                    <td>{{ number_format($bills_history_old->ft,3, '.', '') }}</td>
                                                 @else
                                                     <td></td>
                                                 @endif
                                                 <td>
-                                                    {{ number_format($bills_data->on_peak_balance + $bills_data->off_peak_balance, 6) }}
+                                                    {{ number_format($bills_data->on_peak_balance + $bills_data->off_peak_balance,3, '.', '') }}
                                                 </td>
-                                                <td class="">{{ number_format($bills_data->on_peak + ($bills_data->off_peak + $bills_data->off_peak_day_off), 6) }}</td>
+                                                <td class="">{{ number_format($bills_data->on_peak + ($bills_data->off_peak + $bills_data->off_peak_day_off),3, '.', '') }}</td>
                                                 <td class="text-right">
                                                     <input type="number" name="ft_discount" style="width: 150px"
                                                         class="form-control" value="{{$bills_data->ft_discount}}">
@@ -669,13 +669,34 @@
                                 @if ($bills_data->bill_type == 'SPP')
                                 <b>อัตราค่าไฟฟ้าของ กิจการร่วมค้า สมาร์ท เพาเวอร์ แพลนท์</b><br>
                                 @endif
+                                @if($bills_data->on_peak_discount <= 0)
+                                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($bills_data->on_peak_per_unit,3, '.', '')}}<br>
 
-                                    ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($bills_data->on_peak_per_unit*($bills_data->on_peak_discount/100), 6)}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->on_peak_discount}}% จาก กฟภ.)<br>
-                                    ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($bills_data->off_peak_per_unit*($bills_data->off_peak_discount/100), 6)}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->off_peak_discount}}% จาก กฟภ.)<br>
-                                    Ft (บาท/kWh.) = {{number_format($bills_data->ft_per_unit*($bills_data->ft_discount/100), 6)}} (ส่วนลดอัตราค่าไฟ {{$bills_data->ft_discount}}% จาก กฟภ.)<br>
-                                    <b>ผลประหยัดที่ได้ ในเดือน {{$m_text}}</b><br>
-                                    {{number_format($bills_data->discout_price_total,2)}} <br>
+                                @else
+                                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($bills_data->on_peak_per_unit*($bills_data->on_peak_discount/100),3, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->on_peak_discount}}% จาก กฟภ.)<br>
 
+                                @endif
+
+
+                                @if($bills_data->off_peak_discount <= 0)
+                                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($bills_data->off_peak_per_unit,3, '.', '')}}<br>
+
+                                @else
+                                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($bills_data->off_peak_per_unit*($bills_data->off_peak_discount/100),3, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->off_peak_discount}}% จาก กฟภ.)<br>
+
+                                @endif
+
+
+                                @if($bills_data->ft_discount <= 0)
+                                Ft (บาท/kWh.) = {{number_format($bills_data->ft_per_unit,3, '.', '')}}<br>
+
+                                @else
+                                Ft (บาท/kWh.) = {{number_format($bills_data->ft_per_unit*($bills_data->ft_discount/100),3, '.', '')}} (ส่วนลดอัตราค่าไฟ {{$bills_data->ft_discount}}% จาก กฟภ.)<br>
+
+                                @endif
+
+                                <b>ผลประหยัดที่ได้ ในเดือน {{$m_text}}</b><br>
+                                {{number_format($bills_data->discout_price_total,2)}} <br>
 
                                 </p>
 

@@ -186,7 +186,7 @@
                                       <span class="text-primary font-15">Welcome {{Auth::guard('admin')->user()->first_name}} !</span>
                                 </div>
                                 <div class="nav-drop-body account-items pb-0">
-                                    <a id="profile-link"  class="account-item" href="pages_profile.html">
+                                    <a id="profile-link"  class="account-item" href="#!">
                                         <div class="media align-center">
                                             <div class="media-left">
                                                 <div class="image">
