@@ -88,7 +88,7 @@ class BillController extends Controller
 
             <a class="dropdown-item" href="'.route('admin/bill/bill_create_detail',['code'=>$row->code_order]).'"  >ดูรายละเอียด</a>
             <a class="dropdown-item" href="#!" onclick="print_pdf('.$row->id.')" >PDF</a>
-            <a class="dropdown-item" href="#!"  onclick="print_pdf(' . $row->id . ',\'' .$row->code_order. '\')">ลบรายการ</a>
+            <a class="dropdown-item" href="#!"  onclick="modal_bill_delete(' . $row->id . ',\'' .$row->code_order. '\')">ลบรายการ</a>
           </div>';
 
           return $html; // รวมค่า $html และ $html1 ด้วยเครื่องหมาย .

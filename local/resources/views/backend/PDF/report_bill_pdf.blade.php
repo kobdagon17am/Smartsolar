@@ -7,17 +7,17 @@
     <style>
          @charset "utf-8";
             @font-face {
-                font-family: 'kanit';
+                font-family: 'THSarabunNew';
                 font-style: normal;
                 font-weight: normal;
-                src: url("{{ asset('frontend/fonts/Kanit-Regular.ttf')}}") format('truetype');
+                src: url("{{ asset('frontend/fonts/THSarabunNew.ttf')}}") format('truetype');
             }
 
             @font-face {
-                font-family: 'kanit';
+                font-family: 'THSarabunNew_b';
                 font-style: normal;
                 font-weight: normal;
-                src: url("{{asset('frontend/fonts/Kanit-Bold.ttf')}}") format('truetype');
+                src: url("{{asset('frontend/fonts/THSarabunNewBold.ttf')}}") format('truetype');
             }
 
         p,tbody,th,tr,table,td{
@@ -34,7 +34,7 @@
             line-height: 13px; */
         }
          body{
-            font-family: 'kanit';
+            font-family: 'THSarabunNew';
             font-size: 10px;
             margin-top: 0px;
             margin-bottom: 0px; /* Adjust the value to reduce the space as needed */
