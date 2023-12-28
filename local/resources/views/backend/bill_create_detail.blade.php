@@ -670,16 +670,16 @@
                                 <b>อัตราค่าไฟฟ้าของ กิจการร่วมค้า สมาร์ท เพาเวอร์ แพลนท์</b><br>
                                 @endif
                                 @if($bills_data->on_peak_discount <= 0)
-                                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($bills_data->on_peak_per_unit,3, '.', '')}}<br>
+                                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($bills_data->on_peak_per_unit,4, '.', '')}}<br>
 
                                 @else
-                                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($bills_data->on_peak_per_unit*($bills_data->on_peak_discount/100),3, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->on_peak_discount}}% จาก กฟภ.)<br>
+                                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($bills_data->on_peak_per_unit*($bills_data->on_peak_discount/100),4, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->on_peak_discount}}% จาก กฟภ.)<br>
 
                                 @endif
 
 
                                 @if($bills_data->off_peak_discount <= 0)
-                                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($bills_data->off_peak_per_unit,3, '.', '')}}<br>
+                                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($bills_data->off_peak_per_unit,4, '.', '')}}<br>
 
                                 @else
                                 ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($bills_data->off_peak_per_unit*($bills_data->off_peak_discount/100),3, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$bills_data->off_peak_discount}}% จาก กฟภ.)<br>
@@ -688,10 +688,10 @@
 
 
                                 @if($bills_data->ft_discount <= 0)
-                                Ft (บาท/kWh.) = {{number_format($bills_data->ft_per_unit,3, '.', '')}}<br>
+                                Ft (บาท/kWh.) = {{number_format($bills_data->ft_per_unit,4, '.', '')}}<br>
 
                                 @else
-                                Ft (บาท/kWh.) = {{number_format($bills_data->ft_per_unit*($bills_data->ft_discount/100),3, '.', '')}} (ส่วนลดอัตราค่าไฟ {{$bills_data->ft_discount}}% จาก กฟภ.)<br>
+                                Ft (บาท/kWh.) = {{number_format($bills_data->ft_per_unit*($bills_data->ft_discount/100),4, '.', '')}} (ส่วนลดอัตราค่าไฟ {{$bills_data->ft_discount}}% จาก กฟภ.)<br>
 
                                 @endif
 

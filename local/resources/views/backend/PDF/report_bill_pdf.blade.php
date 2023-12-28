@@ -35,7 +35,7 @@
         }
          body{
             font-family: 'THSarabunNew';
-            font-size: 10px;
+            font-size: 14px;
             margin-top: 0px;
             margin-bottom: 0px; /* Adjust the value to reduce the space as needed */
             margin-top: 0px;
@@ -47,6 +47,9 @@
         .horizontal-line {
             border-top: 1px solid black;
             margin: 2px 0;
+        }
+        .text-right{
+            text-align: right;
         }
 
 
@@ -101,7 +104,7 @@
 
 
             <th align="center">
-                <h3 style="font-size: 30px">ใบแจ้งค่าไฟฟ้า</h3>
+                <h3 style="font-size: 36px;color: #123d71">ใบแจ้งค่าไฟฟ้า</h3>
             </th>
 
 
@@ -109,11 +112,11 @@
         <tr>
         <th style="text-align: left;">
 
-            <p class="inv-to">กิจการร่วมค้า สมาร์ท ไทคอน <br>40/13 หมู่1 ถนนลพบุรีราเมศวร์
-                ตาบลคลองแห จังหวัดสงขลา 90110
+            <p class="inv-to"><b>กิจการร่วมค้า สมาร์ท ไทคอน <br>40/13 หมู่1 ถนนลพบุรีราเมศวร์
+                ตาบลคลองแห จังหวัดสงขลา 90110</b>
             </p>
-            <p class="inv-customer-name">ผู้ติดต่อ : นายธนพล จันทร์คล้าย<br>
-                โทร : 088-7849613
+            <p class="inv-customer-name"><b>ผู้ติดต่อ</b> : นายธนพล จันทร์คล้าย<br>
+                <b>โทร</b> : 088-7849613
             </p>
 
             <p class="inv-email-address"><b>สถานที่ผู้ประกอบการ</b> <br>
@@ -151,16 +154,16 @@
         </p>
         </th>
         <th align="left">
-            <p class="inv-detail-title">เลขประจำตัวผู้เสียภาษี: {{ $data['bills_data']->id_card }}<br>
-             <span class="inv-title">เลขที่ใบแจ้ง : </span> <span
+            <p class="inv-detail-title"><b>เลขประจำตัวผู้เสียภาษี</b>: {{ $data['bills_data']->id_card }}<br>
+             <span class="inv-title"><b>เลขที่ใบแจ้ง</b> : </span> <span
                     class="inv-number">{{ $data['bills_data']->code_order }}</span>
-            <br><span class="inv-title">วันที่อ่านหน่วย : </span> <span
+            <br><span class="inv-title"><b>วันที่อ่านหน่วย</b> : </span> <span
                     class="inv-date">{{ date('d/m/Y', strtotime($data['bills_data']->date_read)) }}</span>
-            <br><span class="inv-title">หมายเลขผู้ใช้ไฟ : </span> <span
+            <br><span class="inv-title"><b>หมายเลขผู้ใช้ไฟ</b> : </span> <span
                     class="inv-number">{{ $data['bills_data']->sola_no }}</span>
-            <br><span class="inv-title">ชื่อผู้ประกอบการ : </span> <span
+            <br><span class="inv-title"><b>ชื่อผู้ประกอบการ</b> : </span> <span
                     class="inv-customer-name">{{ $data['bills_data']->customers_name_bu }}</span>
-            <br><span class="inv-title">วันครบกำหนดชำระ : </span> <span
+            <br><span class="inv-title"><b>วันครบกำหนดชำระ</b> : </span> <span
                     class="inv-date">{{ date('d/m/Y', strtotime($data['bills_data']->date_expri_pay)) }}</span></p>
 
         </th>
@@ -173,63 +176,31 @@
 <table style="width: 100%;border: 0px solid black;padding: 0px;margin: 0px" border="0">
     <thead class="">
         <tr>
-            <td style="background-color:#a3a3a3;padding-left: 2px; width: 30%;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">รายละเอียดค่าไฟฟ้า</b></td>
-            <td style="background-color:#a3a3a3;padding-left: 2px;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">เลขอ่านครั้งก่อน(กิโลวัตต์)</b></td>
-            <td style="background-color:#a3a3a3;padding-left: 2px;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">เลขอ่านปัจจุบัน(กิโลวัตต์)</b></td>
-            <td style="background-color:#a3a3a3;padding-left: 2px;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">ค่าไฟฟ้า(กิโลวัตต์)</b></td>
-           <td style="background-color:#a3a3a3;padding-left: 2px;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">หน่วย/บาท</b></td>
-           <td style="background-color:#a3a3a3;padding-left: 2px;"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">จำนวนเงิน (บาท)</b></td>
+            <td style="background-color:#a3a3a3;padding-left: 2px; width: 40%;text-align: center"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">รายละเอียดค่าไฟฟ้า</b></td>
+
+            <td style="background-color:#a3a3a3;padding-left: 2px; width: 20%;text-align: right"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">ค่าไฟฟ้า(กิโลวัตต์)</b></td>
+           <td style="background-color:#a3a3a3;padding-left: 2px;width: 20%;text-align: right"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">หน่วย/บาท</b></td>
+           <td style="background-color:#a3a3a3;padding-left: 2px;width: 20%;text-align: right"><b style="color: #000;font-size: 14px;margin-left: 5px;margin-top: 0px;">จำนวนเงิน (บาท)</b></td>
 
         </tr>
     </thead>
     <tbody>
         <tr style="">
-            <td>ค่าไฟฟ้าเดือนที่แล้ว</td>
-            @if (@$data['bills_history_old'])
-                <td>
-                    {{ date('d/m/Y', strtotime(@$data['bills_history_old']->date_start)) }}-{{ date('d/m/Y', strtotime(@$data['bills_history_old']->date_end)) }}
-                </td>
-            @else
-                <td>ไม่พบข้อมูลบิลเดือนก่อนหน้า</td>
-            @endif
-            <td></td>
-            <td></td>
+            <td>
+               วันที่ : {{ date('d/m/Y', strtotime(@$data['bills_data']->date_start)) }}-{{ date('d/m/Y', strtotime(@$data['bills_data']->date_end)) }}
+            </td>
+
 
             <td></td>
             <td></td>
             <td></td>
 
         </tr>
-        <tr>
-            <td>ค่าความต้องการพลังงานไฟฟ้า Peak Deman @if($data['bills_data']->peak_deman_discount>0)ส่วนลด({{$data['bills_data']->peak_deman_discount}}%)@endif</td>
-            @if (@$data['bills_history_old'])
-                <td>{{ number_format(@$data['bills_history_old']->peak_deman,3, '.', '') }}</td>
-            @else
-                <td></td>
-            @endif
 
-            <td class="">{{ number_format($data['bills_data']->peak_deman,3, '.', '') }}</td>
-            <td class=""> </td>
-
-            <td class="text-right">
-                {{ number_format($data['bills_data']->peak_deman_per_unit, 6) }}</td>
-            <td class="text-right">
-                {{ number_format($data['bills_data']->peak_deman_total, 6) }}</td>
-
-        </tr>
         <tr>
             <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) On-Peak @if($data['bills_data']->on_peak_discount>0)ส่วนลด({{$data['bills_data']->on_peak_discount}}%)@endif</td>
-            @if (@$data['bills_history_old'])
-                <td>{{ number_format(@$data['bills_history_old']->on_peak_deman_balance,3, '.', '') }}
-                </td>
-            @else
-                <td></td>
-            @endif
 
-            <td class=" ">{{ number_format($data['bills_data']->on_peak,3, '.', '') }}</td>
-            <td class="">{{ number_format($data['bills_data']->on_peak_balance,3, '.', '') }}</td>
-
-
+            <td class="text-right">{{ number_format($data['bills_data']->on_peak_balance,3, '.', '') }}</td>
             <td class="text-right">
                 {{ number_format($data['bills_data']->on_peak_per_unit, 6) }}</td>
             <td class="text-right">{{ number_format($data['bills_data']->on_peak_total, 6) }}
@@ -239,18 +210,8 @@
 
         <tr>
             <td>พลังงานไฟฟ้าในช่วงเวลา (หน่วย) off-Peak @if($data['bills_data']->off_peak_discount>0)ส่วนลด({{$data['bills_data']->off_peak_discount}}%)@endif</td>
-            @if (@$data['bills_history_old'])
-                <td>{{ number_format(@$data['bills_history_old']->off_peak_total,3, '.', '') }}
-                </td>
-            @else
-                <td></td>
-            @endif
-            <td class=" ">
-                {{ number_format($data['bills_data']->off_peak,3, '.', '') }}
-            </td>
-            <td class="">{{ number_format($data['bills_data']->off_peak_balance,3, '.', '') }}</td>
 
-
+            <td class="text-right">{{ number_format($data['bills_data']->off_peak_balance,3, '.', '') }}</td>
             <td class="text-right">
                 {{ number_format($data['bills_data']->off_peak_per_unit, 6) }}</td>
             <td class="text-right">{{ number_format($data['bills_data']->off_peak_total, 6) }}
@@ -258,32 +219,42 @@
 
         </tr>
 
+
+        @if($data['bills_data']->ft_total > 0)
         <tr>
-            <td> </td>
-            @if (@$data['bills_history_old'])
-                <td>{{ number_format(@$data['bills_history_old']->ft,3, '.', '') }}</td>
-            @else
-                <td></td>
-            @endif
-            <td>
-                {{ number_format($data['bills_data']->on_peak_balance + $data['bills_data']->off_peak_balance,3, '.', '') }}
-            </td>
-            <td class="">{{ number_format($data['bills_data']->on_peak + ($data['bills_data']->off_peak + $data['bills_data']->off_peak_day_off),3) }}</td>
+            <td>ค่า FT (หน่วย) @if($data['bills_data']->ft_discount>0)ส่วนลด({{$data['bills_data']->ft_discount}}%)@endif</td>
+
+
+            <td class="text-right">{{ number_format($data['bills_data']->on_peak + ($data['bills_data']->off_peak + $data['bills_data']->off_peak_day_off),3) }}</td>
 
             <td class="text-right">{{ number_format($data['bills_data']->ft_per_unit, 6) }}
             </td>
             <td class="text-right">{{ number_format($data['bills_data']->ft_total, 6) }}</td>
 
         </tr>
+        @endif
+
+        @if($data['bills_data']->peak_deman_total > 0)
+        <tr>
+            <td>ค่าความต้องการพลังงานไฟฟ้า Peak Deman @if($data['bills_data']->peak_deman_discount>0)ส่วนลด({{$data['bills_data']->peak_deman_discount}}%)@endif</td>
+
+            <td class="text-right">{{ number_format($data['bills_data']->peak_deman,3, '.', '') }}</td>
+
+            <td class="text-right">
+                {{ number_format($data['bills_data']->peak_deman_per_unit, 6) }}</td>
+            <td class="text-right">
+                {{ number_format($data['bills_data']->peak_deman_total, 6) }}</td>
+
+        </tr>
+        @endif
 
 
 
         <tr>
             <td> </td>
-            <td></td>
+
             <td> </td>
-            <td> </td>
-            <td>รวมเงินค่าไฟฟ้า :</td>
+            <td class="text-right">รวมเงินค่าไฟฟ้า :</td>
 
             <td class="text-right">{{ number_format($data['bills_data']->sum_price, 2) }}</td>
 
@@ -292,29 +263,26 @@
 
         <tr>
             <td> </td>
-            <td></td>
-            <td> </td>
-            <td></td>
 
-            <td>ภาษีมูลค่าเพิ่ม 7% :</td>
+            <td></td>
+            <td class="text-right">ภาษีมูลค่าเพิ่ม 7% :</td>
             <td class="text-right">{{ number_format($data['bills_data']->tax_total, 2) }}</td>
 
         </tr>
         <tr>
-            <td colspan="6"><div class="horizontal-line"></div></td>
+            <td colspan="4"><div class="horizontal-line"></div></td>
         </tr>
         <tr>
             <td></td>
+
             <td></td>
-            <td> </td>
-            <td></td>
-            <td>รวมเงินค่าไฟฟ้าทั้งสิ้น :</td>
+            <td class="text-right">รวมเงินค่าไฟฟ้าทั้งสิ้น :</td>
 
             <td class="text-right">{{ number_format($data['bills_data']->total_price, 2) }}</td>
 
         </tr>
         <tr>
-            <td colspan="6"><div class="horizontal-line"></div></td>
+            <td colspan="4"><div class="horizontal-line"></div></td>
         </tr>
     </tbody>
 </table>
@@ -335,7 +303,7 @@
         <tr>
             <th align="left" style="width: 50%">
 
-                <p>
+                <p style="font-size: 11px">
                     <b>เกี่ยวกับบิลค่าไฟฟ้า</b><br>
                     อ้างอิงอัตราค่าไฟฟ้าดังต่อไปนี้ อัตราตามช่วงเวลาของการใช้ (TOU)<br> สำหรับแรงดัน 22-33 kv
                     สำหรับแรงดัน 22-33 kv <br>
@@ -352,7 +320,7 @@
             </th>
 
             <th align="left">
-                <p>
+                <p style="font-size: 11px">
                     <b>อัตราค่าไฟของการไฟฟ้าส่วนภูมิภาค (กฟภ.) ในปัจจุบัน</b><br>
                     ช่วงเวลา On-Peak (บาท/kWh) = {{$data['bills_data']->on_peak_per_unit}}<br>
                     ช่วงเวลา Off-Peak (บาท/kWh) = {{$data['bills_data']->off_peak_per_unit}}<br>
@@ -367,7 +335,7 @@
                 @endif
 
                 @if($data['bills_data']->on_peak_discount <= 0)
-                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($data['bills_data']->on_peak_per_unit,3, '.', '')}}<br>
+                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($data['bills_data']->on_peak_per_unit,4, '.', '')}}<br>
 
                 @else
                 ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($data['bills_data']->on_peak_per_unit*($data['bills_data']->on_peak_discount/100),3, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->on_peak_discount}}% จาก กฟภ.)<br>
@@ -376,23 +344,23 @@
 
 
                 @if($data['bills_data']->off_peak_discount <= 0)
-                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($data['bills_data']->off_peak_per_unit,3, '.', '')}}<br>
+                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($data['bills_data']->off_peak_per_unit,4, '.', '')}}<br>
 
                 @else
-                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($data['bills_data']->off_peak_per_unit*($data['bills_data']->off_peak_discount/100),3, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->off_peak_discount}}% จาก กฟภ.)<br>
+                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($data['bills_data']->off_peak_per_unit*($data['bills_data']->off_peak_discount/100),4, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->off_peak_discount}}% จาก กฟภ.)<br>
 
                 @endif
 
 
                 @if($data['bills_data']->ft_discount <= 0)
-                Ft (บาท/kWh.) = {{number_format($data['bills_data']->ft_per_unit,3, '.', '')}}<br>
+                Ft (บาท/kWh.) = {{number_format($data['bills_data']->ft_per_unit,4, '.', '')}}<br>
 
                 @else
-                Ft (บาท/kWh.) = {{number_format($data['bills_data']->ft_per_unit*($data['bills_data']->ft_discount/100),3, '.', '')}} (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->ft_discount}}% จาก กฟภ.)<br>
+                Ft (บาท/kWh.) = {{number_format($data['bills_data']->ft_per_unit*($data['bills_data']->ft_discount/100),4, '.', '')}} (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->ft_discount}}% จาก กฟภ.)<br>
 
                 @endif
                     <b>ผลประหยัดที่ได้ ในเดือน {{$m_text}}</b><br>
-                    {{number_format($data['bills_data']->discout_price_total,2)}} <br>
+                    {{number_format($data['bills_data']->discout_price_total,4)}} <br>
                 </p>
             </th>
         </tr>
@@ -402,13 +370,13 @@
 
                 @if ($data['bills_data']->bill_type == 'STC')
 
-                    <p class="">ช่องทางการชำระเงิน : ธนาคารกรุงเทพ สาขาตลาดพงศ์เจริญ หาดใหญ่ <br>
+                    <p class="" style="font-size: 14px">ช่องทางการชำระเงิน : ธนาคารกรุงเทพ สาขาตลาดพงศ์เจริญ หาดใหญ่ <br>
                         ชื่อบัญชี : กิจการร่วมค้า สมาร์ท ไทคอน เลขที่ : 764-0-18148-8</p>
 
             @endif
             @if ($data['bills_data']->bill_type == 'SPP')
 
-                    <p class="">ช่องทางการชำระเงิน : ธนาคารกรุงเทพ สาขาตลาดพงศ์เจริญ หาดใหญ่ <br>
+                    <p class="" style="font-size: 14px">ช่องทางการชำระเงิน : ธนาคารกรุงเทพ สาขาตลาดพงศ์เจริญ หาดใหญ่ <br>
                         ชื่อบัญชี : กิจการร่วมค้า สมาร์ท เพาเวอร์ แพลนท์ <br>เลขที่ : 764-0-18379-9</p>
 
             @endif

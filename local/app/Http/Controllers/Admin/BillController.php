@@ -787,7 +787,7 @@ class BillController extends Controller
                 $discout_price_ft = 0;
             }
 
-            $discout_price_total = $discout_price_peak+$discout_price_on+ $discout_price_of;
+            $discout_price_total = $discout_price_peak+$discout_price_on+ $discout_price_of + $discout_price_ft;
 
             $sum_price =$peak_deman_total+ $on_peak_total+$off_peak_total+$ft_total;
             // dd($peak_deman_total,$on_peak_total,$off_peak_total,$ft_total,$sum_price);
