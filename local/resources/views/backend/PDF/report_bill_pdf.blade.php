@@ -322,10 +322,15 @@
             <th align="left">
                 <p style="font-size: 11px">
                     <b>อัตราค่าไฟของการไฟฟ้าส่วนภูมิภาค (กฟภ.) ในปัจจุบัน</b><br>
-                    ช่วงเวลา On-Peak (บาท/kWh) = {{$data['bills_data']->on_peak_per_unit}}<br>
-                    ช่วงเวลา Off-Peak (บาท/kWh) = {{$data['bills_data']->off_peak_per_unit}}<br>
+                    ช่วงเวลา On-Peak (บาท/kWh.) = {{$data['bills_data']->on_peak_per_unit}}<br>
+                    ช่วงเวลา Off-Peak (บาท/kWh.) = {{$data['bills_data']->off_peak_per_unit}}<br>
+                    @if($data['bills_data']->ft_total > 0)
                     <b> {{$data['bills_data']->ft_text}}</b><br>
                     Ft (บาท/kWh.) = {{$data['bills_data']->ft_per_unit}} <br>
+                    @else
+                    <b> ค่าความต้องการพลังงานไฟฟ้า </b><br>
+                    Peak (บาท/kWh.) = {{$data['bills_data']->peak_deman_per_unit}} <br>
+                    @endif
 
                 @if ($data['bills_data']->bill_type == 'STC')
                     <b>อัตราค่าไฟฟ้าของ กิจการร่วมค้า สมาร์ท ไทคอน</b><br>
@@ -335,32 +340,44 @@
                 @endif
 
                 @if($data['bills_data']->on_peak_discount <= 0)
-                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($data['bills_data']->on_peak_per_unit,4, '.', '')}}<br>
+                ช่วงเวลา On-Peak (บาท/kWh.) = {{number_format($data['bills_data']->on_peak_per_unit,4, '.', '')}}<br>
 
                 @else
-                ช่วงเวลา On-Peak (บาท/kWh) = {{number_format($data['bills_data']->on_peak_per_unit*($data['bills_data']->on_peak_discount/100),3, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->on_peak_discount}}% จาก กฟภ.)<br>
+                ช่วงเวลา On-Peak (บาท/kWh.) = {{number_format($data['bills_data']->on_peak_per_unit*($data['bills_data']->on_peak_discount/100),3, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->on_peak_discount}}% จาก กฟภ.)<br>
 
                 @endif
 
 
                 @if($data['bills_data']->off_peak_discount <= 0)
-                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($data['bills_data']->off_peak_per_unit,4, '.', '')}}<br>
+                ช่วงเวลา Off-Peak (บาท/kWh.) = {{number_format($data['bills_data']->off_peak_per_unit,4, '.', '')}}<br>
 
                 @else
-                ช่วงเวลา Off-Peak (บาท/kWh) = {{number_format($data['bills_data']->off_peak_per_unit*($data['bills_data']->off_peak_discount/100),4, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->off_peak_discount}}% จาก กฟภ.)<br>
+                ช่วงเวลา Off-Peak (บาท/kWh.) = {{number_format($data['bills_data']->off_peak_per_unit*($data['bills_data']->off_peak_discount/100),4, '.', '')}}  (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->off_peak_discount}}% จาก กฟภ.)<br>
 
                 @endif
 
 
-                @if($data['bills_data']->ft_discount <= 0)
-                Ft (บาท/kWh.) = {{number_format($data['bills_data']->ft_per_unit,4, '.', '')}}<br>
+                @if($data['bills_data']->peak_deman_total > 0)
+                    @if($data['bills_data']->peak_deman_discount <= 0)
+                    Peak (บาท/kWh.) = {{number_format($data['bills_data']->peak_deman_per_unit,4, '.', '')}}<br>
 
+                    @else
+                    Peak (บาท/kWh.) = {{number_format($data['bills_data']->peak_deman_per_unit*($data['bills_data']->peak_deman_discount/100),4, '.', '')}} (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->peak_deman_discount}}% จาก กฟภ.)<br>
+
+                    @endif
                 @else
-                Ft (บาท/kWh.) = {{number_format($data['bills_data']->ft_per_unit*($data['bills_data']->ft_discount/100),4, '.', '')}} (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->ft_discount}}% จาก กฟภ.)<br>
+                    @if($data['bills_data']->ft_discount <= 0)
+                    Ft (บาท/kWh.) = {{number_format($data['bills_data']->ft_per_unit,4, '.', '')}}<br>
 
+                    @else
+                    Ft (บาท/kWh.) = {{number_format($data['bills_data']->ft_per_unit*($data['bills_data']->ft_discount/100),4, '.', '')}} (ส่วนลดอัตราค่าไฟ {{$data['bills_data']->ft_discount}}% จาก กฟภ.)<br>
+
+                    @endif
                 @endif
+
+
                     <b>ผลประหยัดที่ได้ ในเดือน {{$m_text}}</b><br>
-                    {{number_format($data['bills_data']->discout_price_total,4)}} <br>
+                    {{number_format($data['bills_data']->discout_price_total,2)}} <br>
                 </p>
             </th>
         </tr>
